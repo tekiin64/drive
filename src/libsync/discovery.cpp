@@ -1985,7 +1985,10 @@ DiscoverySingleDirectoryJob *ProcessDirectoryJob::startAsyncServerQuery()
     });
     connect(serverJob, &DiscoverySingleDirectoryJob::firstDirectoryPermissions, this,
         [this](const RemotePermissions &perms) { _rootPermissions = perms; });
-    serverJob->start();
+    QTimer::singleShot(5000, this, [serverJob]() {
+        serverJob->start();
+    });
+    
     return serverJob;
 }
 
