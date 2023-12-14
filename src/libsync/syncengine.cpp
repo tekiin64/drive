@@ -137,6 +137,7 @@ bool SyncEngine::SingleItemDiscoveryOptions::isValid() const
  */
 bool SyncEngine::checkErrorBlacklisting(SyncFileItem &item)
 {
+    Utility::ExecutionTimeProfiler timeProfiler(QString("SyncEngine::checkErrorBlacklisting(%1)").arg(item._file));
     if (!_journal) {
         qCCritical(lcEngine) << "Journal is undefined!";
         return false;
@@ -336,6 +337,7 @@ void SyncEngine::caseClashConflictRecordMaintenance()
 
 void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
 {
+    Utility::ExecutionTimeProfiler timeProfiler(QString("SyncEngine::slotItemDiscovered(%1)").arg(item->_file));
     emit itemDiscovered(item);
 
     if (Utility::isConflictFile(item->_file))

@@ -510,6 +510,34 @@ QString Utility::timeAgoInWords(const QDateTime &dt, const QDateTime &from)
 
 static const char STOPWATCH_END_TAG[] = "_STOPWATCH_END";
 
+Utility::ExecutionTimeProfiler::ExecutionTimeProfiler(const QString &label)
+    : _label(label)
+{
+    _startTimePoint = std::chrono::high_resolution_clock::now();
+}
+
+Utility::ExecutionTimeProfiler::~ExecutionTimeProfiler()
+{
+    const auto endTimePoint = std::chrono::high_resolution_clock::now();
+
+    const auto start = std::chrono::time_point_cast<std::chrono::microseconds>(_startTimePoint).time_since_epoch().count();
+    const auto end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePoint).time_since_epoch().count();
+
+    const auto durationMicroSeconds = end - start;
+    const double duratiomMilliSeconds = durationMicroSeconds * 0.001;
+
+    qCDebug(lcUtility) << "[ExecutionTimeProfiler]" << _label << "microsecs:" << durationMicroSeconds << "millisecs:" << duratiomMilliSeconds;
+
+    if (durationMicroSeconds > _largestSoFar.second) {
+        _largestSoFar = {_label, durationMicroSeconds};
+    }
+
+    qCDebug(lcUtility) << "[ExecutionTimeProfiler]"
+                     << "Largest so far is:" << _label << "microsecs:" << durationMicroSeconds << "millisecs:" << duratiomMilliSeconds;
+}
+
+QPair<QString, long long> Utility::ExecutionTimeProfiler::_largestSoFar = {{}, 0};
+
 void Utility::StopWatch::start()
 {
     _startTime = QDateTime::currentDateTimeUtc();
