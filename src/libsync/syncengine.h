@@ -325,7 +325,7 @@ private:
     QString _remotePath;
     QByteArray _remoteRootEtag;
     SyncJournalDb *_journal;
-    QScopedPointer<DiscoveryPhase> _discoveryPhase;
+    QSharedPointer<DiscoveryPhase> _discoveryPhase;
     QSharedPointer<OwncloudPropagator> _propagator;
 
     QSet<QString> _bulkUploadBlackList;

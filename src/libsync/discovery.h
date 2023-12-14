@@ -15,6 +15,7 @@
 #pragma once
 
 #include <QObject>
+#include <QSharedPointer>
 #include "discoveryphase.h"
 #include "syncfileitem.h"
 #include "common/asserts.h"
@@ -100,7 +101,7 @@ public:
      *
      * The base pin state is used if the root dir's pin state can't be retrieved.
      */
-    explicit ProcessDirectoryJob(DiscoveryPhase *data, PinState basePinState,
+    explicit ProcessDirectoryJob(QSharedPointer<DiscoveryPhase> data, PinState basePinState,
         qint64 lastSyncTimestamp, QObject *parent);
 
     /// For creating subjobs
@@ -108,7 +109,7 @@ public:
         QueryMode queryLocal, QueryMode queryServer, qint64 lastSyncTimestamp,
         ProcessDirectoryJob *parent);
 
-    explicit ProcessDirectoryJob(DiscoveryPhase *data, PinState basePinState, const PathTuple &path, const SyncFileItemPtr &dirItem,
+    explicit ProcessDirectoryJob(QSharedPointer<DiscoveryPhase> data, PinState basePinState, const PathTuple &path, const SyncFileItemPtr &dirItem,
         QueryMode queryLocal, qint64 lastSyncTimestamp, QObject *parent);
 
     void start();
@@ -289,7 +290,7 @@ private:
     std::deque<ProcessDirectoryJob *> _queuedJobs;
     QVector<ProcessDirectoryJob *> _runningJobs;
 
-    DiscoveryPhase *_discoveryData;
+    QSharedPointer<DiscoveryPhase> _discoveryData;
 
     PathTuple _currentFolder;
     bool _childModified = false; // the directory contains modified item what would prevent deletion

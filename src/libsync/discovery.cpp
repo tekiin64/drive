@@ -20,6 +20,7 @@
 #include "syncfileitem.h"
 #include "progressdispatcher.h"
 #include <QDebug>
+#include <QCoreApplication>
 #include <algorithm>
 #include <QEventLoop>
 #include <QDir>
@@ -39,12 +40,13 @@ namespace OCC {
 
 Q_LOGGING_CATEGORY(lcDisco, "nextcloud.sync.discovery", QtInfoMsg)
 
-ProcessDirectoryJob::ProcessDirectoryJob(DiscoveryPhase *data, PinState basePinState, qint64 lastSyncTimestamp, QObject *parent)
+ProcessDirectoryJob::ProcessDirectoryJob(QSharedPointer<DiscoveryPhase> data, PinState basePinState, qint64 lastSyncTimestamp, QObject *parent)
     : QObject(parent)
     , _lastSyncTimestamp(lastSyncTimestamp)
-    , _discoveryData(data)
 {
     qCDebug(lcDisco) << data;
+    
+    _discoveryData = data;
     computePinState(basePinState);
 }
 
@@ -54,21 +56,21 @@ ProcessDirectoryJob::ProcessDirectoryJob(const PathTuple &path, const SyncFileIt
     , _lastSyncTimestamp(lastSyncTimestamp)
     , _queryServer(queryServer)
     , _queryLocal(queryLocal)
-    , _discoveryData(parent->_discoveryData)
     , _currentFolder(path)
 {
+    _discoveryData = parent->_discoveryData;
     qCDebug(lcDisco) << path._server << queryServer << path._local << queryLocal << lastSyncTimestamp;
     computePinState(parent->_pinState);
 }
 
-ProcessDirectoryJob::ProcessDirectoryJob(DiscoveryPhase *data, PinState basePinState, const PathTuple &path, const SyncFileItemPtr &dirItem, QueryMode queryLocal, qint64 lastSyncTimestamp, QObject *parent)
+ProcessDirectoryJob::ProcessDirectoryJob(QSharedPointer<DiscoveryPhase> data, PinState basePinState, const PathTuple &path, const SyncFileItemPtr &dirItem, QueryMode queryLocal, qint64 lastSyncTimestamp, QObject *parent)
         : QObject(parent)
         , _dirItem(dirItem)
         , _lastSyncTimestamp(lastSyncTimestamp)
         , _queryLocal(queryLocal)
-        , _discoveryData(data)
         , _currentFolder(path)
 {
+    _discoveryData = data;
     computePinState(basePinState);
 }
 
@@ -247,7 +249,7 @@ void ProcessDirectoryJob::process()
         }
     }
     _discoveryData->_listExclusiveFiles.clear();
-    QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
+    QTimer::singleShot(0, _discoveryData.data(), &DiscoveryPhase::scheduleMoreJobs);
 }
 
 bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &entries, const std::map<QString, Entries> &allEntries, bool isHidden)
@@ -586,7 +588,7 @@ void ProcessDirectoryJob::postProcessServerNew(const SyncFileItemPtr &item,
                                                         if (!result) {
                                                             processFileAnalyzeLocalInfo(item, path, localEntry, serverEntry, dbEntry, _queryServer);
                                                         }
-                                                        QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
+                                                        QTimer::singleShot(0, _discoveryData.data(), &DiscoveryPhase::scheduleMoreJobs);
                                                     });
         return;
     }
@@ -707,6 +709,8 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(const SyncFileItemPtr &it
 
         _discoveryData->_filesUnscheduleSync.append(path._original);
     }
+    
+    //QCoreApplication::processEvents();
 
     // The file is known in the db already
     if (dbEntry.isValid()) {
@@ -718,7 +722,9 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(const SyncFileItemPtr &it
 
         if (serverEntry.isDirectory) {
             // Even if over quota, continue syncing as normal for now
-            _discoveryData->checkSelectiveSyncExistingFolder(path._server);
+            if (_discoveryData) {
+                _discoveryData->checkSelectiveSyncExistingFolder(path._server);
+            }
         }
 
         if (serverEntry.isDirectory != dbEntry.isDirectory()) {
@@ -944,7 +950,7 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(const SyncFileItemPtr &it
             const auto job = new RequestEtagJob(_discoveryData->_account, _discoveryData->_remoteFolder + originalPath, this);
             connect(job, &RequestEtagJob::finishedWithResult, this, [=](const HttpResult<QByteArray> &etag) mutable {
                 _pendingAsyncJobs--;
-                QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
+                QTimer::singleShot(0, _discoveryData.data(), &DiscoveryPhase::scheduleMoreJobs);
                 if (etag || etag.error().code != 404 ||
                     // Somehow another item claimed this original path, consider as if it existed
                     _discoveryData->isRenamed(originalPath)) {
@@ -1496,7 +1502,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             }
             processFileFinalize(item, path, item->isDirectory(), NormalQuery, recurseQueryServer);
             _pendingAsyncJobs--;
-            QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
+            QTimer::singleShot(0, _discoveryData.data(), &DiscoveryPhase::scheduleMoreJobs);
         });
         job->start();
         return;
@@ -1664,7 +1670,7 @@ void ProcessDirectoryJob::processFileFinalize(
             _lastSyncTimestamp, this);
         job->setInsideEncryptedTree(isInsideEncryptedTree() || item->isEncrypted());
         if (removed) {
-            job->setParent(_discoveryData);
+            job->setParent(_discoveryData.data());
             _discoveryData->enqueueDirectoryToDelete(path._original, job);
         } else {
             connect(job, &ProcessDirectoryJob::finished, this, &ProcessDirectoryJob::subJobFinished);
@@ -1878,7 +1884,7 @@ void ProcessDirectoryJob::subJobFinished()
     int count = _runningJobs.removeAll(job);
     ASSERT(count == 1);
     job->deleteLater();
-    QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
+    QTimer::singleShot(0, _discoveryData.data(), &DiscoveryPhase::scheduleMoreJobs);
 }
 
 int ProcessDirectoryJob::processSubJobs(int nbJobs)
@@ -2012,7 +2018,7 @@ void ProcessDirectoryJob::startAsyncLocalQuery()
     _discoveryData->_currentlyActiveJobs++;
     _pendingAsyncJobs++;
 
-    connect(localJob, &DiscoverySingleLocalDirectoryJob::itemDiscovered, _discoveryData, &DiscoveryPhase::itemDiscovered);
+    connect(localJob, &DiscoverySingleLocalDirectoryJob::itemDiscovered, _discoveryData.data(), &DiscoveryPhase::itemDiscovered);
 
     connect(localJob, &DiscoverySingleLocalDirectoryJob::childIgnored, this, [this](bool b) {
         _childIgnored = b;

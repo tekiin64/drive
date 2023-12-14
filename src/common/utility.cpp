@@ -518,7 +518,7 @@ Utility::ExecutionTimeProfiler::ExecutionTimeProfiler(const QString &label)
 
 Utility::ExecutionTimeProfiler::~ExecutionTimeProfiler()
 {
-    const auto endTimePoint = std::chrono::high_resolution_clock::now();
+   const auto endTimePoint = std::chrono::high_resolution_clock::now();
 
     const auto start = std::chrono::time_point_cast<std::chrono::microseconds>(_startTimePoint).time_since_epoch().count();
     const auto end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePoint).time_since_epoch().count();

@@ -714,7 +714,7 @@ void SyncEngine::startSync()
         }();
 
         discoveryJob = new ProcessDirectoryJob(
-            _discoveryPhase.data(),
+            _discoveryPhase,
             pinState,
             path,
             singleItemDiscoveryOptions().discoveryDirItem,
@@ -724,7 +724,7 @@ void SyncEngine::startSync()
         );
     } else {
         discoveryJob = new ProcessDirectoryJob(
-            _discoveryPhase.data(),
+            _discoveryPhase,
             PinState::AlwaysLocal,
             _journal->keyValueStoreGetInt("last_sync", 0),
             _discoveryPhase.data()
@@ -985,9 +985,6 @@ void SyncEngine::finalize(bool success)
     qCInfo(lcEngine) << "Sync run took " << _stopWatch.addLapTime(QLatin1String("Sync Finished")) << "ms";
     _stopWatch.stop();
 
-    if (_discoveryPhase) {
-        _discoveryPhase.take()->deleteLater();
-    }
     s_anySyncRunning = false;
     _syncRunning = false;
     emit finished(success);
@@ -1247,7 +1244,6 @@ void SyncEngine::abort()
         // Delete the discovery and all child jobs after ensuring
         // it can't finish and start the propagator
         disconnect(_discoveryPhase.data(), nullptr, this, nullptr);
-        _discoveryPhase.take()->deleteLater();
         qCInfo(lcEngine) << "Aborting sync in discovery...";
         finalize(false);
     }

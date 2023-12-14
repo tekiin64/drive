@@ -41,6 +41,14 @@ namespace OCC {
 
 Q_LOGGING_CATEGORY(lcDiscovery, "nextcloud.sync.discovery", QtInfoMsg)
 
+DiscoveryPhase::DiscoveryPhase()
+{
+}
+
+DiscoveryPhase::~DiscoveryPhase()
+{
+}
+
 bool DiscoveryPhase::isInSelectiveSyncBlackList(const QString &path) const
 {
     if (_selectiveSyncBlackList.isEmpty()) {

@@ -197,6 +197,9 @@ public:
 class DiscoveryPhase : public QObject
 {
     Q_OBJECT
+public:
+    DiscoveryPhase();
+    ~DiscoveryPhase();
 
     friend class ProcessDirectoryJob;
 
