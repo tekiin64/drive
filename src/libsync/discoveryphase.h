@@ -323,6 +323,8 @@ public:
 
     bool _noCaseConflictRecordsInDb = false;
 
+    mutable QVariant _notifyExistingFoldersOverLimitCached;
+
 signals:
     void fatalError(const QString &errorString, const OCC::ErrorCategory errorCategory);
     void itemDiscovered(const OCC::SyncFileItemPtr &item);

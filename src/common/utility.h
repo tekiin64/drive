@@ -30,6 +30,7 @@
 #include <QMap>
 #include <QUrl>
 #include <QUrlQuery>
+#include <chrono>
 #include <functional>
 #include <memory>
 
@@ -188,6 +189,18 @@ namespace Utility {
         [[nodiscard]] QDateTime startTime() const;
         [[nodiscard]] QDateTime timeOfLap(const QString &lapName) const;
         [[nodiscard]] quint64 durationOfLap(const QString &lapName) const;
+    };
+
+    class OCSYNC_EXPORT ExecutionTimeProfiler
+    {
+    public:
+        explicit ExecutionTimeProfiler(const QString &label);
+        ~ExecutionTimeProfiler();
+
+    private:
+        std::chrono::time_point<std::chrono::high_resolution_clock> _startTimePoint;
+        QString _label;
+        static QPair<QString, long long> _largestSoFar;
     };
 
     /**

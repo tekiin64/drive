@@ -63,7 +63,10 @@ bool DiscoveryPhase::activeFolderSizeLimit() const
 
 bool DiscoveryPhase::notifyExistingFolderOverLimit() const
 {
-    return activeFolderSizeLimit() && ConfigFile().notifyExistingFoldersOverLimit();
+    if (!_notifyExistingFoldersOverLimitCached.isValid()) {
+        _notifyExistingFoldersOverLimitCached = ConfigFile().notifyExistingFoldersOverLimit();
+    }
+    return activeFolderSizeLimit() && _notifyExistingFoldersOverLimitCached.toBool();
 }
 
 void DiscoveryPhase::checkFolderSizeLimit(const QString &path, const std::function<void(bool)> completionCallback)
