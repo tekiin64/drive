@@ -21,6 +21,7 @@
 #include "abstractnetworkjob.h"
 
 #include "common/result.h"
+#include "common/utility.h"
 
 class QUrl;
 class QUrlQuery;
@@ -168,6 +169,7 @@ private slots:
 private:
     QList<QByteArray> _properties;
     QUrl _url; // Used instead of path() if the url is specified in the constructor
+    Utility::ExecutionTimeProfiler *_timeProfiler = nullptr;
 };
 
 /**
@@ -211,6 +213,7 @@ private:
     static QVariantList processSystemTagsInPropfindDomDocument(const QDomDocument &domDocument);
 
     QList<QByteArray> _properties;
+    Utility::ExecutionTimeProfiler *_timeProfiler = nullptr;
 };
 
 #ifndef TOKEN_AUTH_ONLY

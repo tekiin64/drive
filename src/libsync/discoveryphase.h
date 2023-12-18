@@ -129,6 +129,7 @@ private:
     QString _localPath;
     AccountPtr _account;
     OCC::Vfs* _vfs;
+
 public:
 };
 

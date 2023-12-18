@@ -289,6 +289,7 @@ DiscoverySingleLocalDirectoryJob::DiscoverySingleLocalDirectoryJob(const Account
 
 // Use as QRunnable
 void DiscoverySingleLocalDirectoryJob::run() {
+    Utility::ExecutionTimeProfiler timeProfiler("DiscoverySingleLocalDirectoryJob::run()");
     QString localPath = _localPath;
     if (localPath.endsWith('/')) // Happens if _currentFolder._local.isEmpty()
         localPath.chop(1);
@@ -362,7 +363,6 @@ void DiscoverySingleLocalDirectoryJob::run() {
     if (errno != 0) {
         qCWarning(lcDiscovery) << "closedir failed for file in " << localPath << " - errno: " << errno;
     }
-
     emit finished(results);
 }
 
@@ -594,6 +594,7 @@ void DiscoverySingleDirectoryJob::directoryListingIteratedSlot(const QString &fi
 
 void DiscoverySingleDirectoryJob::lsJobFinishedWithoutErrorSlot()
 {
+    Utility::ExecutionTimeProfiler timeProfiler("DiscoverySingleDirectoryJob::lsJobFinishedWithoutErrorSlot()");
     if (!_ignoredFirst) {
         // This is a sanity check, if we haven't _ignoredFirst then it means we never received any directoryListingIteratedSlot
         // which means somehow the server XML was bogus
@@ -616,6 +617,7 @@ void DiscoverySingleDirectoryJob::lsJobFinishedWithoutErrorSlot()
 
 void DiscoverySingleDirectoryJob::lsJobFinishedWithErrorSlot(QNetworkReply *r)
 {
+    Utility::ExecutionTimeProfiler timeProfiler("DiscoverySingleDirectoryJob::lsJobFinishedWithErrorSlot()");
     const auto contentType = r->header(QNetworkRequest::ContentTypeHeader).toString();
     const auto invalidContentType = !contentType.contains("application/xml; charset=utf-8") &&
                                     !contentType.contains("application/xml; charset=\"utf-8\"") &&

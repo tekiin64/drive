@@ -211,6 +211,7 @@ LsColXMLParser::LsColXMLParser() = default;
 
 bool LsColXMLParser::parse(const QByteArray &xml, QHash<QString, ExtraFolderInfo> *fileInfo, const QString &expectedPath)
 {
+    Utility::ExecutionTimeProfiler timeProfiler("LsColXMLParser::parse()");
     // Parse DAV response
     QXmlStreamReader reader(xml);
     reader.addExtraNamespaceDeclaration(QXmlStreamNamespaceDeclaration("d", "DAV:"));
@@ -339,6 +340,7 @@ QList<QByteArray> LsColJob::properties() const
 
 void LsColJob::start()
 {
+    _timeProfiler = new Utility::ExecutionTimeProfiler("LsColJob::start()");
     QList<QByteArray> properties = _properties;
 
     if (properties.isEmpty()) {
@@ -369,7 +371,9 @@ void LsColJob::start()
     auto *buf = new QBuffer(this);
     buf->setData(xml);
     buf->open(QIODevice::ReadOnly);
+    auto url = makeDavUrl(path()).toString();
     if (_url.isValid()) {
+        url = _url.toString();
         sendRequest("PROPFIND", _url, req, buf);
     } else {
         sendRequest("PROPFIND", makeDavUrl(path()), req, buf);
@@ -384,6 +388,9 @@ bool LsColJob::finished()
 {
     qCInfo(lcLsColJob) << "LSCOL of" << reply()->request().url() << "FINISHED WITH STATUS"
                        << replyStatusString();
+
+    delete _timeProfiler;
+    _timeProfiler = nullptr;
 
     const auto contentType = reply()->header(QNetworkRequest::ContentTypeHeader).toString();
     const auto httpCode = reply()->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -598,6 +605,7 @@ PropfindJob::PropfindJob(AccountPtr account, const QString &path, QObject *paren
 
 void PropfindJob::start()
 {
+    _timeProfiler = new Utility::ExecutionTimeProfiler("PropfindJob::start()");
     const auto properties = _properties;
 
     if (properties.isEmpty()) {
@@ -670,6 +678,9 @@ bool PropfindJob::finished()
                                  << (http_result_code == 302 ? reply()->header(QNetworkRequest::LocationHeader).toString() : QLatin1String(""));
         emit finishedWithError(reply());
     }
+
+    delete _timeProfiler;
+    _timeProfiler = nullptr;
 
     return true;
 }
