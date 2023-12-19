@@ -24,7 +24,6 @@
 #include <algorithm>
 #include <QEventLoop>
 #include <QDir>
-#include <QtConcurrent>
 #include <set>
 #include <QTextCodec>
 #include "vio/csync_vio_local.h"
@@ -59,13 +58,9 @@ ProcessDirectoryJob::ProcessDirectoryJob(const PathTuple &path, const SyncFileIt
     , _queryLocal(queryLocal)
     , _currentFolder(path)
 {
-    if (parent) {
-        _discoveryData = parent->_discoveryData;
-    }
+    _discoveryData = parent->_discoveryData;
     qCDebug(lcDisco) << path._server << queryServer << path._local << queryLocal << lastSyncTimestamp;
-    if (parent) {
-        computePinState(parent->_pinState);
-    }
+    computePinState(parent->_pinState);
 }
 
 ProcessDirectoryJob::ProcessDirectoryJob(QSharedPointer<DiscoveryPhase> data, PinState basePinState, const PathTuple &path, const SyncFileItemPtr &dirItem, QueryMode queryLocal, qint64 lastSyncTimestamp, QObject *parent)
@@ -115,149 +110,146 @@ void ProcessDirectoryJob::start()
 void ProcessDirectoryJob::process()
 {
     ASSERT(_localQueryDone && _serverQueryDone);
-    connect(&_processFutureWatcher, &QFutureWatcherBase::finished, this, [this]() {
-        QTimer::singleShot(0, _discoveryData.data(), &DiscoveryPhase::scheduleMoreJobs);
-    });
-    _processFutureWatcher.setFuture(QtConcurrent::run([this](){
-        Utility::ExecutionTimeProfiler timeProfiler("ProcessDirectoryJob::process()");
 
-        // Build lookup tables for local, remote and db entries.
-        // For suffix-virtual files, the key will normally be the base file name
-        // without the suffix.
-        // However, if foo and foo.owncloud exists locally, there'll be "foo"
-        // with local, db, server entries and "foo.owncloud" with only a local
-        // entry.
-        std::map<QString, Entries> entries;
-        for (auto &e : _serverNormalQueryEntries) {
-            entries[e.name].serverEntry = std::move(e);
-        }
-        _serverNormalQueryEntries.clear();
+    Utility::ExecutionTimeProfiler timeProfiler("ProcessDirectoryJob::process()");
 
-        // fetch all the name from the DB
-        auto pathU8 = _currentFolder._original.toUtf8();
-        if (!_discoveryData->_statedb->listFilesInPath(pathU8, [&](const SyncJournalFileRecord &rec) {
-                auto name = pathU8.isEmpty() ? rec._path : QString::fromUtf8(rec._path.constData() + (pathU8.size() + 1));
-                if (rec.isVirtualFile() && isVfsWithSuffix())
-                    chopVirtualFileSuffix(name);
-                auto &dbEntry = entries[name].dbEntry;
-                dbEntry = rec;
-                setupDbPinStateActions(dbEntry);
-            })) {
-            dbError();
-            return;
-        }
+    // Build lookup tables for local, remote and db entries.
+    // For suffix-virtual files, the key will normally be the base file name
+    // without the suffix.
+    // However, if foo and foo.owncloud exists locally, there'll be "foo"
+    // with local, db, server entries and "foo.owncloud" with only a local
+    // entry.
+    std::map<QString, Entries> entries;
+    for (auto &e : _serverNormalQueryEntries) {
+        entries[e.name].serverEntry = std::move(e);
+    }
+    _serverNormalQueryEntries.clear();
 
+    // fetch all the name from the DB
+    auto pathU8 = _currentFolder._original.toUtf8();
+    if (!_discoveryData->_statedb->listFilesInPath(pathU8, [&](const SyncJournalFileRecord &rec) {
+            auto name = pathU8.isEmpty() ? rec._path : QString::fromUtf8(rec._path.constData() + (pathU8.size() + 1));
+            if (rec.isVirtualFile() && isVfsWithSuffix())
+                chopVirtualFileSuffix(name);
+            auto &dbEntry = entries[name].dbEntry;
+            dbEntry = rec;
+            setupDbPinStateActions(dbEntry);
+        })) {
+        dbError();
+        return;
+    }
+
+    for (auto &e : _localNormalQueryEntries) {
+        entries[e.name].localEntry = e;
+    }
+    if (isVfsWithSuffix()) {
+        // For vfs-suffix the local data for suffixed files should usually be associated
+        // with the non-suffixed name. Unless both names exist locally or there's
+        // other data about the suffixed file.
+        // This is done in a second path in order to not depend on the order of
+        // _localNormalQueryEntries.
         for (auto &e : _localNormalQueryEntries) {
-            entries[e.name].localEntry = e;
-        }
-        if (isVfsWithSuffix()) {
-            // For vfs-suffix the local data for suffixed files should usually be associated
-            // with the non-suffixed name. Unless both names exist locally or there's
-            // other data about the suffixed file.
-            // This is done in a second path in order to not depend on the order of
-            // _localNormalQueryEntries.
-            for (auto &e : _localNormalQueryEntries) {
-                if (!e.isVirtualFile)
-                    continue;
-                auto &suffixedEntry = entries[e.name];
-                bool hasOtherData = suffixedEntry.serverEntry.isValid() || suffixedEntry.dbEntry.isValid();
+            if (!e.isVirtualFile)
+                continue;
+            auto &suffixedEntry = entries[e.name];
+            bool hasOtherData = suffixedEntry.serverEntry.isValid() || suffixedEntry.dbEntry.isValid();
 
-                auto nonvirtualName = e.name;
-                chopVirtualFileSuffix(nonvirtualName);
-                auto &nonvirtualEntry = entries[nonvirtualName];
-                // If the non-suffixed entry has no data, move it
-                if (!nonvirtualEntry.localEntry.isValid()) {
-                    std::swap(nonvirtualEntry.localEntry, suffixedEntry.localEntry);
-                    if (!hasOtherData)
-                        entries.erase(e.name);
-                } else if (!hasOtherData) {
-                    // Normally a lone local suffixed file would be processed under the
-                    // unsuffixed name. In this special case it's under the suffixed name.
-                    // To avoid lots of special casing, make sure PathTuple::addName()
-                    // will be called with the unsuffixed name anyway.
-                    suffixedEntry.nameOverride = nonvirtualName;
-                }
+            auto nonvirtualName = e.name;
+            chopVirtualFileSuffix(nonvirtualName);
+            auto &nonvirtualEntry = entries[nonvirtualName];
+            // If the non-suffixed entry has no data, move it
+            if (!nonvirtualEntry.localEntry.isValid()) {
+                std::swap(nonvirtualEntry.localEntry, suffixedEntry.localEntry);
+                if (!hasOtherData)
+                    entries.erase(e.name);
+            } else if (!hasOtherData) {
+                // Normally a lone local suffixed file would be processed under the
+                // unsuffixed name. In this special case it's under the suffixed name.
+                // To avoid lots of special casing, make sure PathTuple::addName()
+                // will be called with the unsuffixed name anyway.
+                suffixedEntry.nameOverride = nonvirtualName;
             }
         }
-        _localNormalQueryEntries.clear();
+    }
+    _localNormalQueryEntries.clear();
 
-        //
-        // Iterate over entries and process them
-        //
-        {
-            Utility::ExecutionTimeProfiler timeProfiler("ProcessDirectoryJob::process()->for (auto &f : entries)");
-            for (auto &f : entries) {
-                auto &e = f.second;
+    //
+    // Iterate over entries and process them
+    //
+    {
+        Utility::ExecutionTimeProfiler timeProfiler("ProcessDirectoryJob::process()->for (auto &f : entries)");
+        for (auto &f : entries) {
+            auto &e = f.second;
 
-                PathTuple path;
-                path = _currentFolder.addName(e.nameOverride.isEmpty() ? f.first : e.nameOverride);
+            PathTuple path;
+            path = _currentFolder.addName(e.nameOverride.isEmpty() ? f.first : e.nameOverride);
 
-                if (!_discoveryData->_listExclusiveFiles.isEmpty() && !_discoveryData->_listExclusiveFiles.contains(path._server)) {
-                    qCInfo(lcDisco) << "Skipping a file:" << path._server << "as it is not listed in the _listExclusiveFiles";
-                    continue;
-                }
-
-                if (isVfsWithSuffix()) {
-                    // Without suffix vfs the paths would be good. But since the dbEntry and localEntry
-                    // can have different names from f.first when suffix vfs is on, make sure the
-                    // corresponding _original and _local paths are right.
-
-                    if (e.dbEntry.isValid()) {
-                        path._original = e.dbEntry._path;
-                    } else if (e.localEntry.isVirtualFile) {
-                        // We don't have a db entry - but it should be at this path
-                        path._original = PathTuple::pathAppend(_currentFolder._original, e.localEntry.name);
-                    }
-                    if (e.localEntry.isValid()) {
-                        path._local = PathTuple::pathAppend(_currentFolder._local, e.localEntry.name);
-                    } else if (e.dbEntry.isVirtualFile()) {
-                        // We don't have a local entry - but it should be at this path
-                        addVirtualFileSuffix(path._local);
-                    }
-                }
-
-                // On the server the path is mangled in case of E2EE
-                if (!e.serverEntry.e2eMangledName.isEmpty()) {
-                    Q_ASSERT(_discoveryData->_remoteFolder.startsWith('/'));
-                    Q_ASSERT(_discoveryData->_remoteFolder.endsWith('/'));
-
-                    const auto rootPath = _discoveryData->_remoteFolder.mid(1);
-                    Q_ASSERT(e.serverEntry.e2eMangledName.startsWith(rootPath));
-
-                    path._server = e.serverEntry.e2eMangledName.mid(rootPath.length());
-                }
-
-                // If the filename starts with a . we consider it a hidden file
-                // For windows, the hidden state is also discovered within the vio
-                // local stat function.
-                // Recall file shall not be ignored (#4420)
-                bool isHidden = e.localEntry.isHidden || (!f.first.isEmpty() && f.first[0] == '.' && f.first != QLatin1String(".sys.admin#recall#"));
-                if (handleExcluded(path._target, e, entries, isHidden))
-                    continue;
-
-                const auto isEncryptedFolderButE2eIsNotSetup = e.serverEntry.isValid() && e.serverEntry.isE2eEncrypted() && _discoveryData->_account->e2e()
-                    && !_discoveryData->_account->e2e()->_publicKey.isNull() && _discoveryData->_account->e2e()->_privateKey.isNull();
-
-                if (isEncryptedFolderButE2eIsNotSetup) {
-                    checkAndUpdateSelectiveSyncListsForE2eeFolders(path._server + "/");
-                }
-
-                if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original) || isEncryptedFolderButE2eIsNotSetup) {
-                    processBlacklisted(path, e.localEntry, e.dbEntry);
-                    continue;
-                }
-
-                // HACK: Sometimes the serverEntry.etag does not correctly have its quotation marks amputated in the string.
-                // We are once again making sure they are chopped off here, but we should really find the root cause for why
-                // exactly they are not being lobbed off at any of the prior points of processing.
-
-                e.serverEntry.etag = Utility::normalizeEtag(e.serverEntry.etag);
-
-                processFile(std::move(path), e.localEntry, e.serverEntry, e.dbEntry);
+            if (!_discoveryData->_listExclusiveFiles.isEmpty() && !_discoveryData->_listExclusiveFiles.contains(path._server)) {
+                qCInfo(lcDisco) << "Skipping a file:" << path._server << "as it is not listed in the _listExclusiveFiles";
+                continue;
             }
+
+            if (isVfsWithSuffix()) {
+                // Without suffix vfs the paths would be good. But since the dbEntry and localEntry
+                // can have different names from f.first when suffix vfs is on, make sure the
+                // corresponding _original and _local paths are right.
+
+                if (e.dbEntry.isValid()) {
+                    path._original = e.dbEntry._path;
+                } else if (e.localEntry.isVirtualFile) {
+                    // We don't have a db entry - but it should be at this path
+                    path._original = PathTuple::pathAppend(_currentFolder._original, e.localEntry.name);
+                }
+                if (e.localEntry.isValid()) {
+                    path._local = PathTuple::pathAppend(_currentFolder._local, e.localEntry.name);
+                } else if (e.dbEntry.isVirtualFile()) {
+                    // We don't have a local entry - but it should be at this path
+                    addVirtualFileSuffix(path._local);
+                }
+            }
+
+            // On the server the path is mangled in case of E2EE
+            if (!e.serverEntry.e2eMangledName.isEmpty()) {
+                Q_ASSERT(_discoveryData->_remoteFolder.startsWith('/'));
+                Q_ASSERT(_discoveryData->_remoteFolder.endsWith('/'));
+
+                const auto rootPath = _discoveryData->_remoteFolder.mid(1);
+                Q_ASSERT(e.serverEntry.e2eMangledName.startsWith(rootPath));
+
+                path._server = e.serverEntry.e2eMangledName.mid(rootPath.length());
+            }
+
+            // If the filename starts with a . we consider it a hidden file
+            // For windows, the hidden state is also discovered within the vio
+            // local stat function.
+            // Recall file shall not be ignored (#4420)
+            bool isHidden = e.localEntry.isHidden || (!f.first.isEmpty() && f.first[0] == '.' && f.first != QLatin1String(".sys.admin#recall#"));
+            if (handleExcluded(path._target, e, entries, isHidden))
+                continue;
+
+            const auto isEncryptedFolderButE2eIsNotSetup = e.serverEntry.isValid() && e.serverEntry.isE2eEncrypted() && _discoveryData->_account->e2e()
+                && !_discoveryData->_account->e2e()->_publicKey.isNull() && _discoveryData->_account->e2e()->_privateKey.isNull();
+
+            if (isEncryptedFolderButE2eIsNotSetup) {
+                checkAndUpdateSelectiveSyncListsForE2eeFolders(path._server + "/");
+            }
+
+            if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original) || isEncryptedFolderButE2eIsNotSetup) {
+                processBlacklisted(path, e.localEntry, e.dbEntry);
+                continue;
+            }
+
+            // HACK: Sometimes the serverEntry.etag does not correctly have its quotation marks amputated in the string.
+            // We are once again making sure they are chopped off here, but we should really find the root cause for why
+            // exactly they are not being lobbed off at any of the prior points of processing.
+
+            e.serverEntry.etag = Utility::normalizeEtag(e.serverEntry.etag);
+
+            processFile(std::move(path), e.localEntry, e.serverEntry, e.dbEntry);
         }
-        _discoveryData->_listExclusiveFiles.clear();
-    }));
+    }
+    _discoveryData->_listExclusiveFiles.clear();
+    QTimer::singleShot(0, _discoveryData.data(), &DiscoveryPhase::scheduleMoreJobs);
 }
 
 bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &entries, const std::map<QString, Entries> &allEntries, bool isHidden)
@@ -717,6 +709,8 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(const SyncFileItemPtr &it
 
         _discoveryData->_filesUnscheduleSync.append(path._original);
     }
+    
+    //QCoreApplication::processEvents();
 
     // The file is known in the db already
     if (dbEntry.isValid()) {
@@ -1672,22 +1666,13 @@ void ProcessDirectoryJob::processFileFinalize(
         recurse = false;
     }
     if (recurse) {
-        const auto mainThread = QCoreApplication::instance()->thread();
         auto job = new ProcessDirectoryJob(path, item, recurseQueryLocal, recurseQueryServer,
-            _lastSyncTimestamp, nullptr);
-        job->moveToThread(mainThread);
-        if (!job->_discoveryData) {
-            job->_discoveryData = this->_discoveryData;
-            job->computePinState(this->_pinState);
-        }
+            _lastSyncTimestamp, this);
         job->setInsideEncryptedTree(isInsideEncryptedTree() || item->isEncrypted());
         if (removed) {
             job->setParent(_discoveryData.data());
             _discoveryData->enqueueDirectoryToDelete(path._original, job);
         } else {
-            QTimer::singleShot(0, this, [job, this]() {
-                job->setParent(this);
-            });
             connect(job, &ProcessDirectoryJob::finished, this, &ProcessDirectoryJob::subJobFinished);
             _queuedJobs.push_back(job);
         }

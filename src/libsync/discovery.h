@@ -16,7 +16,6 @@
 
 #include <QObject>
 #include <QSharedPointer>
-#include <QFutureWatcher>
 #include "discoveryphase.h"
 #include "syncfileitem.h"
 #include "common/asserts.h"
@@ -298,7 +297,6 @@ private:
     bool _childIgnored = false; // The directory contains ignored item that would prevent deletion
     PinState _pinState = PinState::Unspecified; // The directory's pin-state, see computePinState()
     bool _isInsideEncryptedTree = false; // this directory is encrypted or is within the tree of directories with root directory encrypted
-    QFutureWatcher<void> _processFutureWatcher;
 
 signals:
     void finished();
