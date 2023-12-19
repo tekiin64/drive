@@ -131,11 +131,12 @@ class OWNCLOUDSYNC_EXPORT LsColXMLParser : public QObject
     Q_OBJECT
 public:
     explicit LsColXMLParser(QNetworkReply *reply, QHash<QString, ExtraFolderInfo> *fileInfos, const QString &expectedPath);
-    ~LsColXMLParser();
+    explicit LsColXMLParser(const QByteArray &xml, QHash<QString, ExtraFolderInfo> *fileInfos, const QString &expectedPath);
+
+    [[nodiscard]] bool parseResult() const;
 
 public slots:
     void parse();
-    void slotDirectoryListingIterated(const QString &name, const QStringMap &properties);
     void cleanup();
 
 signals:
@@ -151,6 +152,7 @@ private:
     QHash<QString, ExtraFolderInfo> *_fileInfos = nullptr;
     QString _expectedPath;
     std::unique_ptr<QThread> _thread;
+    bool _parseResult = true;
 };
 
 class OWNCLOUDSYNC_EXPORT LsColJob : public AbstractNetworkJob
@@ -159,7 +161,6 @@ class OWNCLOUDSYNC_EXPORT LsColJob : public AbstractNetworkJob
 public:
     explicit LsColJob(AccountPtr account, const QString &path, QObject *parent = nullptr);
     explicit LsColJob(AccountPtr account, const QUrl &url, QObject *parent = nullptr);
-    ~LsColJob();
     void start() override;
     QHash<QString, ExtraFolderInfo> _folderInfos;
 
@@ -182,7 +183,6 @@ signals:
 
 private slots:
     bool finished() override;
-    void slotdirectoryListingIterated(const QString &name, const QMap<QString, QString> &properties);
 
 private:
     QList<QByteArray> _properties;

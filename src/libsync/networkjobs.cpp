@@ -229,18 +229,27 @@ LsColXMLParser::LsColXMLParser(QNetworkReply *reply, QHash<QString, ExtraFolderI
 {
     qRegisterMetaType<QStringMap>();
     qRegisterMetaType<const QStringMap&>();
-    auto threadId = (DWORD)QThread::currentThreadId();
-    _thread.reset(new QThread());
+    _thread = std::make_unique<QThread>();
     moveToThread(_thread.get());
     _thread->start();
 }
 
-LsColXMLParser::~LsColXMLParser()
+LsColXMLParser::LsColXMLParser(const QByteArray &xml, QHash<QString, ExtraFolderInfo> *fileInfos, const QString &expectedPath)
+    : _reply(nullptr)
+    , _xml(xml)
+    , _fileInfos(fileInfos)
+    , _expectedPath(expectedPath)
 {
-    auto currentThread = thread()->currentThreadId();
-    int a = 5;
-    a = 6;
-    auto threadId = (DWORD)QThread::currentThreadId();
+    qRegisterMetaType<QStringMap>();
+    qRegisterMetaType<const QStringMap &>();
+    _thread = std::make_unique<QThread>();
+    moveToThread(_thread.get());
+    _thread->start();
+}
+
+bool LsColXMLParser::parseResult() const
+{
+    return _parseResult;
 }
 
 void LsColXMLParser::cleanup()
@@ -249,15 +258,8 @@ void LsColXMLParser::cleanup()
     _thread->wait();
 }
 
-void LsColXMLParser::slotDirectoryListingIterated(const QString &name, const QMap<QString, QString> &properties)
-{
-    int a = 5;
-    a = 6;
-}
-
 void LsColXMLParser::parse()
 {
-    auto threadId = (DWORD)QThread::currentThreadId();
     // Parse DAV response
     QXmlStreamReader reader(_xml);
     reader.addExtraNamespaceDeclaration(QXmlStreamNamespaceDeclaration("d", "DAV:"));
@@ -286,6 +288,7 @@ void LsColXMLParser::parse()
                     qCWarning(lcLsColJob) << "Invalid href" << hrefString << "expected starting with" << _expectedPath;
                     QMetaObject::invokeMethod(this, "finishedWithError", Q_ARG(QNetworkReply *, _reply));
                     QMetaObject::invokeMethod(this, "finished");
+                    _parseResult = false;
                     return;
                 }
                 currentHref = hrefString;
@@ -338,10 +341,6 @@ void LsColXMLParser::parse()
                                               "directoryListingIterated",
                                               Q_ARG(QString, currentHref),
                                               Q_ARG(QStringMap, currentHttp200Properties));
-                    QMetaObject::invokeMethod(this,
-                                              "slotDirectoryListingIterated",
-                                              Q_ARG(QString, currentHref),
-                                              Q_ARG(QStringMap, currentHttp200Properties));
                     currentHref.clear();
                     currentHttp200Properties.clear();
                 } else if (reader.name() == davXmlKeyPropstat) {
@@ -366,11 +365,13 @@ void LsColXMLParser::parse()
                                   Qt::QueuedConnection,
                                   Q_ARG(QNetworkReply*, _reply));
         QMetaObject::invokeMethod(this, "finished");
+        _parseResult = false;
         return;
     } else if (!insideMultiStatus) {
         qCWarning(lcLsColJob) << "ERROR no WebDAV response?" << _xml;
         QMetaObject::invokeMethod(this, "finishedWithError", Q_ARG(QNetworkReply *, _reply));
         QMetaObject::invokeMethod(this, "finished");
+        _parseResult = false;
         return;
     }
     QMetaObject::invokeMethod(this, "directoryListingSubfolders", Q_ARG(QStringList, folders));
@@ -389,12 +390,6 @@ LsColJob::LsColJob(AccountPtr account, const QUrl &url, QObject *parent)
     : AbstractNetworkJob(account, QString(), parent)
     , _url(url)
 {
-}
-
-LsColJob::~LsColJob()
-{
-    int a = 5;
-    a = 6;
 }
 
 void LsColJob::setProperties(QList<QByteArray> properties)
@@ -468,7 +463,6 @@ bool LsColJob::finished()
 
         connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &LsColJob::directoryListingSubfolders);
         connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &LsColJob::directoryListingIterated);
-        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &LsColJob::slotdirectoryListingIterated);
         connect(xmlParser, &LsColXMLParser::finishedWithError, this, &LsColJob::finishedWithError);
         connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &LsColJob::finishedWithoutError);
         connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
@@ -485,13 +479,6 @@ bool LsColJob::finished()
 
     return false;
 }
-
-void LsColJob::slotdirectoryListingIterated(const QString &name, const QMap<QString, QString> &properties)
-{
-    int a = 5;
-    a = 6;
-}
-
 /*********************************************************************************************/
 
 namespace {

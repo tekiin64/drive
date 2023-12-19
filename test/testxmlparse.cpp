@@ -99,18 +99,23 @@ private slots:
               "</d:response>"
               "</d:multistatus>";
 
+        
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        LsColXMLParser parser;
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" ));
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+        QVERIFY(xmlParser->parseResult());
+        delete xmlParser;
 
         QVERIFY(_success);
         QCOMPARE(sizes.size(), 1 ); // Quota info in the XML
@@ -173,18 +178,24 @@ private slots:
               "</d:response>"
               "</d:multistatus>";
 
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        LsColXMLParser parser;
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(false == parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" )); // verify false
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+        QVERIFY(!xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
 
         QVERIFY(!_success);
         QVERIFY(sizes.size() == 0 ); // No quota info in the XML
@@ -197,17 +208,25 @@ private slots:
     void testParserEmptyXmlNoDav() {
         const QByteArray testXml = "<html><body>I am under construction</body></html>";
 
-        LsColXMLParser parser;
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(false == parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" )); // verify false
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
+
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(!xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
 
         QVERIFY(!_success);
         QVERIFY(sizes.size() == 0 ); // No quota info in the XML
@@ -219,17 +238,25 @@ private slots:
     void testParserEmptyXml() {
         const QByteArray testXml = "";
 
-        LsColXMLParser parser;
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(false == parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" )); // verify false
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
+
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(!xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
 
         QVERIFY(!_success);
         QVERIFY(sizes.size() == 0 ); // No quota info in the XML
@@ -257,18 +284,26 @@ private slots:
               "<d:status>HTTP/1.1 200 OK</d:status>"
               "</d:propstat>"; // no proper end here
 
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        LsColXMLParser parser;
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(!parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" ));
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(!xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
+       
         QVERIFY(!_success);
     }
 
@@ -323,17 +358,26 @@ private slots:
               "</d:multistatus>";
 
 
-        LsColXMLParser parser;
+                QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(false == parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" ));
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
+
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(!xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
+
         QVERIFY(!_success);
     }
 
@@ -388,17 +432,26 @@ private slots:
               "</d:multistatus>";
 
 
-        LsColXMLParser parser;
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(false == parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" ));
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
+
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(!xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
+
         QVERIFY(!_success);
     }
 
@@ -453,17 +506,25 @@ private slots:
               "</d:multistatus>";
 
 
-        LsColXMLParser parser;
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" ));
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
+
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
 
         QVERIFY(_success);
         QCOMPARE(sizes.size(), 1 ); // Quota info in the XML
@@ -527,17 +588,25 @@ private slots:
               "</d:multistatus>";
 
 
-        LsColXMLParser parser;
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, "/oc/remote.php/dav/sharefolder");
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(!parser.parse( testXml, &sizes, "/oc/remote.php/dav/sharefolder" ));
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
+
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(!xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
 
         QVERIFY(!_success);
     }
@@ -592,17 +661,26 @@ private slots:
               "</d:response>"
               "</d:multistatus>";
 
-        LsColXMLParser parser;
+        QHash<QString, ExtraFolderInfo> sizes;
+        const auto xmlParser = new LsColXMLParser(testXml, &sizes, QString::fromUtf8("/ä"));
+        connect(xmlParser, &LsColXMLParser::directoryListingSubfolders, this, &TestXmlParse::slotDirectoryListingSubFolders);
+        connect(xmlParser, &LsColXMLParser::directoryListingIterated, this, &TestXmlParse::slotDirectoryListingIterated);
+        connect(xmlParser, &LsColXMLParser::finishedWithoutError, this, &TestXmlParse::slotFinishedSuccessfully);
 
-        connect( &parser, &LsColXMLParser::directoryListingSubfolders,
-                 this, &TestXmlParse::slotDirectoryListingSubFolders );
-        connect( &parser, &LsColXMLParser::directoryListingIterated,
-                 this, &TestXmlParse::slotDirectoryListingIterated );
-        connect( &parser, &LsColXMLParser::finishedWithoutError,
-                 this, &TestXmlParse::slotFinishedSuccessfully );
+        connect(xmlParser, &LsColXMLParser::finished, this, [xmlParser]() {
+            xmlParser->cleanup();
+        });
+        
+        QMetaObject::invokeMethod(xmlParser, "parse");
 
-        QHash <QString, ExtraFolderInfo> sizes;
-        QVERIFY(parser.parse( testXml, &sizes, QString::fromUtf8("/ä") ));
+        QSignalSpy xmlParserFinishedSpy(xmlParser, &LsColXMLParser::finished);
+
+        QVERIFY(xmlParserFinishedSpy.wait(2000));
+
+        QVERIFY(xmlParser->parseResult()); // verify false
+
+        delete xmlParser;
+
         QVERIFY(_success);
 
         QVERIFY(_items.contains(QString::fromUtf8("/ä/ä.pdf")));
