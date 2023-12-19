@@ -35,6 +35,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #endif
+#include <QtConcurrent>
 
 #include "networkjobs.h"
 #include "account.h"
@@ -209,7 +210,7 @@ static QString readContentsAsString(QXmlStreamReader &reader)
 
 LsColXMLParser::LsColXMLParser() = default;
 
-bool LsColXMLParser::parse(const QByteArray &xml, QHash<QString, ExtraFolderInfo> *fileInfo, const QString &expectedPath)
+bool LsColXMLParser::parse(const QByteArray &xml, QSharedPointer<QHash<QString, ExtraFolderInfo>> fileInfo, const QString &expectedPath)
 {
     // Parse DAV response
     QXmlStreamReader reader(xml);
@@ -319,12 +320,14 @@ bool LsColXMLParser::parse(const QByteArray &xml, QHash<QString, ExtraFolderInfo
 LsColJob::LsColJob(AccountPtr account, const QString &path, QObject *parent)
     : AbstractNetworkJob(account, path, parent)
 {
+    _folderInfos = QSharedPointer<QHash<QString, ExtraFolderInfo>>::create();
 }
 
 LsColJob::LsColJob(AccountPtr account, const QUrl &url, QObject *parent)
     : AbstractNetworkJob(account, QString(), parent)
     , _url(url)
 {
+    _folderInfos = QSharedPointer<QHash<QString, ExtraFolderInfo>>::create();
 }
 
 void LsColJob::setProperties(QList<QByteArray> properties)
@@ -393,27 +396,33 @@ bool LsColJob::finished()
                                   contentType.contains("text/xml; charset=\"utf-8\"");
 
     if (httpCode == 207 && validContentType) {
-        LsColXMLParser parser;
-        connect(&parser, &LsColXMLParser::directoryListingSubfolders,
+        const auto parser = new LsColXMLParser;
+        connect(parser, &LsColXMLParser::directoryListingSubfolders,
             this, &LsColJob::directoryListingSubfolders);
-        connect(&parser, &LsColXMLParser::directoryListingIterated,
+        connect(parser, &LsColXMLParser::directoryListingIterated,
             this, &LsColJob::directoryListingIterated);
-        connect(&parser, &LsColXMLParser::finishedWithError,
+        connect(parser, &LsColXMLParser::finishedWithError,
             this, &LsColJob::finishedWithError);
-        connect(&parser, &LsColXMLParser::finishedWithoutError,
+        connect(parser, &LsColXMLParser::finishedWithoutError,
             this, &LsColJob::finishedWithoutError);
 
-        QString expectedPath = reply()->request().url().path(); // something like "/owncloud/remote.php/dav/folder"
-        if (!parser.parse(reply()->readAll(), &_folderInfos, expectedPath)) {
-            // XML parse error
-            emit finishedWithError(reply());
-        }
+        connect(&_futureWatcherXMLParser, &QFutureWatcherBase::finished, this, [this, parser]() {
+            if (!_futureWatcherXMLParser.future().result()) {
+                parser->deleteLater();
+                this->deleteLater();
+                // XML parse error
+                emit finishedWithError(reply());
+            }
+        });
+        
+        const auto expectedPath = reply()->request().url().path(); // something like "/owncloud/remote.php/dav/folder"
+        _futureWatcherXMLParser.setFuture(QtConcurrent::run(parser, &LsColXMLParser::parse, reply()->readAll(), _folderInfos, expectedPath));
     } else {
         // wrong content type, wrong HTTP code or any other network error
         emit finishedWithError(reply());
     }
 
-    return true;
+    return false;
 }
 
 /*********************************************************************************************/

@@ -189,7 +189,7 @@ void OCC::HydrationJob::slotCheckFolderId(const QStringList &list)
     const QString folderId = list.first();
     qCDebug(lcHydration) << "Received id of folder" << folderId;
 
-    const ExtraFolderInfo &folderInfo = job->_folderInfos.value(folderId);
+    const ExtraFolderInfo &folderInfo = job->_folderInfos->value(folderId);
 
     // Now that we have the folder-id we need it's JSON metadata
     auto metadataJob = new GetMetadataApiJob(_account, folderInfo.fileId);

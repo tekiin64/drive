@@ -243,7 +243,7 @@ void SelectiveSyncWidget::slotUpdateDirectories(QStringList list)
         root->setIcon(0, Theme::instance()->applicationIcon());
         root->setData(0, Qt::UserRole, QString());
         root->setCheckState(0, Qt::Checked);
-        qint64 size = job ? job->_folderInfos[pathToRemove].size : -1;
+        qint64 size = job ? (*job->_folderInfos)[pathToRemove].size : -1;
         if (size >= 0) {
             root->setText(1, Utility::octetsToString(size));
             root->setData(1, Qt::UserRole, size);
@@ -252,7 +252,7 @@ void SelectiveSyncWidget::slotUpdateDirectories(QStringList list)
 
     Utility::sortFilenames(list);
     foreach (QString path, list) {
-        auto size = job ? job->_folderInfos[path].size : 0;
+        auto size = job ? (*job->_folderInfos)[path].size : 0;
         path.remove(pathToRemove);
 
         // Don't allow to select subfolders of encrypted subfolders
@@ -297,7 +297,7 @@ void SelectiveSyncWidget::slotUpdateRootFolderFilesSize(const QStringList &subfo
 
     _rootFilesSize = 0;
 
-    for (auto it = std::cbegin(job->_folderInfos); it != std::cend(job->_folderInfos); ++it) {
+    for (auto it = std::cbegin(*job->_folderInfos); it != std::cend(*job->_folderInfos); ++it) {
         if (!subfolders.contains(it.key())) {
             _rootFilesSize += it.value().size;
         }

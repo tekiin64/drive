@@ -81,7 +81,7 @@ void UpdateFileDropMetadataJob::slotFolderEncryptedIdReceived(const QStringList 
         emit finished(SyncFileItem::Status::FatalError);
         return;
     }
-    const auto &folderInfo = fetchFolderEncryptedIdJob->_folderInfos.value(list.first());
+    const auto &folderInfo = fetchFolderEncryptedIdJob->_folderInfos->value(list.first());
     slotTryLock(folderInfo.fileId);
 }
 

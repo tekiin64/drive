@@ -69,7 +69,7 @@ void AbstractPropagateRemoteDeleteEncrypted::slotFolderEncryptedIdReceived(const
 {
     qCDebug(ABSTRACT_PROPAGATE_REMOVE_ENCRYPTED) << "Received id of folder, trying to lock it so we can prepare the metadata";
     auto job = qobject_cast<LsColJob *>(sender());
-    const ExtraFolderInfo folderInfo = job->_folderInfos.value(list.first());
+    const ExtraFolderInfo folderInfo = job->_folderInfos->value(list.first());
     slotTryLock(folderInfo.fileId);
 }
 

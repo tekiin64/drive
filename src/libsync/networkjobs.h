@@ -17,6 +17,8 @@
 #define NETWORKJOBS_H
 
 #include <QBuffer>
+#include <QSharedPointer>
+#include <QFutureWatcher>
 
 #include "abstractnetworkjob.h"
 
@@ -125,8 +127,7 @@ class OWNCLOUDSYNC_EXPORT LsColXMLParser : public QObject
 public:
     explicit LsColXMLParser();
 
-    bool parse(const QByteArray &xml,
-               QHash<QString, ExtraFolderInfo> *sizes,
+    bool parse(const QByteArray &xml, QSharedPointer<QHash<QString, ExtraFolderInfo>> sizes,
                const QString &expectedPath);
 
 signals:
@@ -143,7 +144,7 @@ public:
     explicit LsColJob(AccountPtr account, const QString &path, QObject *parent = nullptr);
     explicit LsColJob(AccountPtr account, const QUrl &url, QObject *parent = nullptr);
     void start() override;
-    QHash<QString, ExtraFolderInfo> _folderInfos;
+    QSharedPointer<QHash<QString, ExtraFolderInfo>> _folderInfos;
 
     /**
      * Used to specify which properties shall be retrieved.
@@ -168,6 +169,7 @@ private slots:
 private:
     QList<QByteArray> _properties;
     QUrl _url; // Used instead of path() if the url is specified in the constructor
+    QFutureWatcher<bool> _futureWatcherXMLParser;
 };
 
 /**

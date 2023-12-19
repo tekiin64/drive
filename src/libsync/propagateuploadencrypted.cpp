@@ -75,7 +75,7 @@ void PropagateUploadEncrypted::slotFolderEncryptedIdReceived(const QStringList &
 {
   qCDebug(lcPropagateUploadEncrypted) << "Received id of folder, trying to lock it so we can prepare the metadata";
   auto job = qobject_cast<LsColJob *>(sender());
-  const auto& folderInfo = job->_folderInfos.value(list.first());
+  const auto& folderInfo = job->_folderInfos->value(list.first());
   _folderLockFirstTry.start();
   slotTryLock(folderInfo.fileId);
 }

@@ -774,7 +774,7 @@ void FolderStatusModel::slotUpdateDirectories(const QStringList &list)
             newInfo._name = removeTrailingSlash(relativePath).split('/').last();
         }
 
-        const auto& folderInfo = job->_folderInfos.value(path);
+        const auto& folderInfo = job->_folderInfos->value(path);
         newInfo._size = folderInfo.size;
         newInfo._fileId = folderInfo.fileId;
         if (relativePath.isEmpty())
