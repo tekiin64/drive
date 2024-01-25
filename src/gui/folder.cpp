@@ -555,7 +555,7 @@ int Folder::slotWipeErrorBlacklist()
 void Folder::slotWatchedPathChanged(const QString &path, ChangeReason reason)
 {
     if (!path.startsWith(this->path())) {
-        qCDebug(lcFolder) << "Changed path is not contained in folder, ignoring:" << path;
+        qCInfo(lcFolder) << "Changed path is not contained in folder, ignoring:" << path;
         return;
     }
 
@@ -568,6 +568,7 @@ void Folder::slotWatchedPathChanged(const QString &path, ChangeReason reason)
                 qCWarning(lcFolder) << "Could not set pin state of" << relativePath << "to excluded";
             }
         }
+        qCInfo(lcFolder) << "Changed path pathIsIgnored:" << path;
         return;
     } else {
         const auto pinState = _vfs->pinState(relativePath.toString());
@@ -595,7 +596,7 @@ void Folder::slotWatchedPathChanged(const QString &path, ChangeReason reason)
 #else
     // Use the path to figure out whether it was our own change
     if (_engine->wasFileTouched(path)) {
-        qCDebug(lcFolder) << "Changed path was touched by SyncEngine, ignoring:" << path;
+        qCInfo(lcFolder) << "Changed path was touched by SyncEngine, ignoring:" << path;
         return;
     }
 #endif

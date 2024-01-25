@@ -207,6 +207,7 @@ void FolderWatcher::changeDetected(const QStringList &paths)
     const auto pathsSet = paths.toSet();
     if (pathsSet == _lastPaths && _timer.elapsed() < 1000) {
         // the same path was reported within the last second. Skip.
+        qCInfo(lcFolderWatcher) << "Skipping changes in paths _lastPaths && _timer.elapsed() < 1000:" << pathsSet;
         return;
     }
     _lastPaths = pathsSet;
@@ -235,18 +236,19 @@ void FolderWatcher::changeDetected(const QStringList &paths)
             _lockedFiles.insert(checkResult.path);
         }
 
-        qCDebug(lcFolderWatcher) << "Locked files:" << _lockedFiles.values();
+        qCInfo(lcFolderWatcher) << "Locked files:" << _lockedFiles.values();
 
         // ------- handle ignores:
         if (pathIsIgnored(path)) {
+            qCInfo(lcFolderWatcher) << "pathIsIgnored:" << path;
             continue;
         }
 
         changedPaths.insert(path);
     }
 
-    qCDebug(lcFolderWatcher) << "Unlocked files:" << _unlockedFiles.values();
-    qCDebug(lcFolderWatcher) << "Locked files:" << _lockedFiles;
+    qCInfo(lcFolderWatcher) << "Unlocked files:" << _unlockedFiles.values();
+    qCInfo(lcFolderWatcher) << "Locked files:" << _lockedFiles;
 
     if (!_lockedFiles.isEmpty() || !_unlockedFiles.isEmpty()) {
         if (_lockChangeDebouncingTimer.isActive()) {
