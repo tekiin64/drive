@@ -205,10 +205,18 @@ void FolderWatcher::changeDetected(const QStringList &paths)
 
     // Check if the same path was reported within the last second.
     const auto pathsSet = paths.toSet();
-    if (pathsSet == _lastPaths && _timer.elapsed() < 1000) {
+    const auto isDampingNeeded = pathsSet == _lastPaths && _timer.elapsed() < 1000;
+    if (isDampingNeeded && std::find_if(std::cbegin(paths),
+                        std::cend(paths),
+                        [](const QString &path) {
+                            return path.endsWith(".pdf", Qt::CaseInsensitive);
+                        }) == std::cend(paths)) {
         // the same path was reported within the last second. Skip.
         qCInfo(lcFolderWatcher) << "Skipping changes in paths _lastPaths && _timer.elapsed() < 1000:" << pathsSet;
         return;
+    }
+    if (isDampingNeeded) {
+        qCInfo(lcFolderWatcher) << "DO NOT skip changes in paths as there is at least one .pdf file:" << pathsSet;
     }
     _lastPaths = pathsSet;
     _timer.restart();
