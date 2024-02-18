@@ -44,7 +44,6 @@
         https://www.firegiant.com/wix/tutorial/upgrades-and-modularization/replacing-ourselves/
         https://www.joyofsetup.com/2010/01/16/major-upgrades-now-easier-than-ever/
     -->
-    <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes" />
     <Property Id="REINSTALLMODE" Value="amus" />
 
     <Media Id="1" Cabinet="$(var.AppShortName).cab" EmbedCab="yes" />
