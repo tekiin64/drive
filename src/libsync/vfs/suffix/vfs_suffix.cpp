@@ -169,8 +169,9 @@ bool VfsSuffix::setPinState(const QString &folderPath, PinState state)
     return setPinStateInDb(folderPath, state);
 }
 
-Vfs::AvailabilityResult VfsSuffix::availability(const QString &folderPath)
+Vfs::AvailabilityResult VfsSuffix::availability(const QString &folderPath, AvailabilityRecursivity recursiveCheck)
 {
+    Q_UNUSED(recursiveCheck)
     return availabilityInDb(folderPath);
 }
 
