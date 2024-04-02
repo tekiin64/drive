@@ -17,6 +17,7 @@
 #include "NCContextMenuRegHandler.h"
 #include "NCContextMenuFactory.h"
 #include "WinShellExtConstants.h"
+#include <string>
 
 HINSTANCE   g_hInst = nullptr;
 long        g_cDllRef = 0;
@@ -179,10 +180,17 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    std::wstring wParamStr = std::to_wstring(wParam);
+    std::wstring lParamStr = std::to_wstring(lParam);
+
+    // Concatenate the values to the message
+    std::wstring message = L"WM_CLOSE is received. WPARAM: " + wParamStr + L"\nLPARAM: " + lParamStr;
     switch (msg) {
-    case WM_CLOSE:
+    case WM_CLOSE: {
+        MessageBox(NULL, message.c_str(), L"Attach now!!!", MB_OK);
         FreeLibrary(g_hInst);
         break;
+    }
     default:
         return DefWindowProc(hwnd, msg, wParam, lParam);
     }
