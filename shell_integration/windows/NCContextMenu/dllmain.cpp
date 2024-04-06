@@ -18,13 +18,14 @@
 #include "NCContextMenuFactory.h"
 #include "WinShellExtConstants.h"
 
-HINSTANCE   g_hInst = nullptr;
-long        g_cDllRef = 0;
+HINSTANCE g_hInst = NULL;
+long      g_cDllRef = 0;
 
-HWND hHiddenWnd = nullptr;
+HWND hHiddenWnd = NULL;
 DWORD WINAPI MessageLoopThread(LPVOID lpParameter);
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateHiddenWindowAndLaunchMessageLoop();
+UINT WM_UNLOAD_NC_CTX_MENU = 0;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
@@ -131,12 +132,16 @@ STDAPI DllUnregisterServer(void)
 
 void CreateHiddenWindowAndLaunchMessageLoop()
 {
+    if (g_hInst == NULL) {
+        return;
+    }
+
     const WNDCLASSEX hiddenWindowClass{sizeof(WNDCLASSEX),
                                        CS_CLASSDC,
                                        HiddenWndProc,
                                        0L,
                                        0L,
-                                       GetModuleHandle(NULL),
+                                       g_hInst,
                                        NULL,
                                        NULL,
                                        NULL,
@@ -144,7 +149,14 @@ void CreateHiddenWindowAndLaunchMessageLoop()
                                        NCCONTEXTMENU_SHELLEXT_WINDOW_CLASS_NAME,
                                        NULL};
 
-    RegisterClassEx(&hiddenWindowClass);
+    if (RegisterClassEx(&hiddenWindowClass) == 0) {
+        return;
+    }
+
+    WM_UNLOAD_NC_CTX_MENU = RegisterWindowMessage(NCCONTEXTMENU_SHELLEXT_WM_UNLOAD_MESSAGE);
+    if (WM_UNLOAD_NC_CTX_MENU == 0) {
+        return;
+    }
 
     hHiddenWnd = CreateWindow(hiddenWindowClass.lpszClassName,
                               L"",
@@ -155,16 +167,26 @@ void CreateHiddenWindowAndLaunchMessageLoop()
                               CW_USEDEFAULT,
                               NULL,
                               NULL,
-                              hiddenWindowClass.hInstance,
+                              g_hInst,
                               NULL);
 
+    if (hHiddenWnd == NULL) {
+        return;
+    }
+
     ShowWindow(hHiddenWnd, SW_HIDE);
-    UpdateWindow(hHiddenWnd);
+
+    if (!UpdateWindow(hHiddenWnd)) {
+        DestroyWindow(hHiddenWnd);
+        return;
+    }
 
     const auto hMessageLoopThread = CreateThread(NULL, 0, MessageLoopThread, NULL, 0, NULL);
-    if (hMessageLoopThread) {
-        CloseHandle(hMessageLoopThread);
+    if (!hMessageLoopThread) {
+        DestroyWindow(hHiddenWnd);
+        return;
     }
+    CloseHandle(hMessageLoopThread);
 }
 
 DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
@@ -179,12 +201,9 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    switch (msg) {
-    case WM_CLOSE:
+    if (msg == WM_UNLOAD_NC_CTX_MENU) {
         FreeLibrary(g_hInst);
-        break;
-    default:
-        return DefWindowProc(hwnd, msg, wParam, lParam);
+        return 0;
     }
-    return 0;
+    return DefWindowProc(hwnd, msg, wParam, lParam);
 }

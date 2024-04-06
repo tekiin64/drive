@@ -32,8 +32,11 @@
 	<?define AppCommandOpenUrlScheme = "@APPLICATION_URI_HANDLER_SCHEME@" ?>
 
     <?define CfApiShellextWndClassName = "@CFAPI_SHELLEXT_WINDOW_CLASS_NAME@" ?>
+    <?define CfApiShellextWmUnloadMessage = "@CFAPI_SHELLEXT_WM_UNLOAD_MESSAGE@" ?>
     <?define NCOverlaysShellextWndClassName = "@NCOVERLAYS_SHELLEXT_WINDOW_CLASS_NAME@" ?>
+    <?define NCOverlaysShellextWmUnloadMessage = "@NCOVERLAYS_SHELLEXT_WM_UNLOAD_MESSAGE@" ?>
     <?define NCContextMenuShellextWndClassName = "@NCCONTEXTMENU_SHELLEXT_WINDOW_CLASS_NAME@" ?>
+    <?define NCContextMenuShellextWmUnloadMessage = "@NCCONTEXTMENU_SHELLEXT_WM_UNLOAD_MESSAGE@" ?>
 
     <!-- Custom license: To use it, also remove the "Skip the license page" stuff in the <UI> section
                          and uncomment <WixVariable Id="WixUILicenseRtf"...
