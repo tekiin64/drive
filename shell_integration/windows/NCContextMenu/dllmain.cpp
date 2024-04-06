@@ -192,7 +192,7 @@ LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
     std::wstring message = L"WM_CLOSE is received! WPARAM: " + wParamStr + L"\nLPARAM: " + lParamStr;
     switch (msg) {
     case WM_CLOSE: {
-        MessageBox(hwnd, message.c_str(), L"Attach now!!!", MB_OK);
+        MessageBox(NULL, message.c_str(), L"Attach now!!!", MB_OK);
         FreeLibrary(g_hInst);
         break;
     }
