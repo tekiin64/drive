@@ -39,22 +39,22 @@
                     Execute="deferred"
                     Impersonate="yes" />
 
-      <CustomAction Id="CloseCfApiShellExtension"
+      <CustomAction Id="SendWindowMessageToCfApiShellExtension"
                     Return="ignore"
                     BinaryKey="NCMsiHelper"
-                    DllEntry="CloseWindowByClassName"
+                    DllEntry="SendWindowMessageByWindowClassName"
                     Execute="immediate"
                     Impersonate="yes" />
-      <CustomAction Id="CloseNCContextMenuShellExtension"
+      <CustomAction Id="SendWindowMessageToNCContextMenuShellExtension"
                      Return="ignore"
                      BinaryKey="NCMsiHelper"
-                     DllEntry="CloseWindowByClassName"
+                     DllEntry="SendWindowMessageByWindowClassName"
                      Execute="immediate"
                      Impersonate="yes" />
-      <CustomAction Id="CloseNCOverlaysShellExtension"
+      <CustomAction Id="SendWindowMessageToNCOverlaysShellExtension"
                     Return="ignore"
                     BinaryKey="NCMsiHelper"
-                    DllEntry="CloseWindowByClassName"
+                    DllEntry="SendWindowMessageByWindowClassName"
                     Execute="immediate"
                     Impersonate="yes" />
 

@@ -71,10 +71,13 @@
     <!-- Quit / restart application -->
     <util:RestartResource ProcessName="$(var.AppExe)" />
      
-    <Property Id="WNDCLASSNAMETOCLOSE" Value="$(var.CfApiShellextWndClassName)" />
-    <CustomAction Id="SetCfApiWindowClassName" Property="WNDCLASSNAMETOCLOSE" Value="$(var.CfApiShellextWndClassName)" />
-    <CustomAction Id="SetNCContextMenuWindowClassName" Property="WNDCLASSNAMETOCLOSE" Value="$(var.NCContextMenuShellextWndClassName)" />
-    <CustomAction Id="SetNCOverlaysWindowClassName" Property="WNDCLASSNAMETOCLOSE" Value="$(var.NCOverlaysShellextWndClassName)" />
+    <Property Id="WNDCLASSNAMEFORMESSAGESEND" Value="$(var.CfApiShellextWndClassName)" />
+    <CustomAction Id="SetCfApiWindowClassName" Property="WNDCLASSNAMEFORMESSAGESEND" Value="$(var.CfApiShellextWndClassName)" />
+    <CustomAction Id="SetCfApiWindowWmStringForMessageSend" Property="WMSTRINGFORMESSAGESEND" Value="$(var.CfApiShellextWmUnloadMessage)" />
+    <CustomAction Id="SetNCContextMenuWindowClassName" Property="WNDCLASSNAMEFORMESSAGESEND" Value="$(var.NCContextMenuShellextWndClassName)" />
+    <CustomAction Id="SetNCContextMenuWmStringForMessageSend" Property="WMSTRINGFORMESSAGESEND" Value="$(var.NCContextMenuShellextWmUnloadMessage)" />
+    <CustomAction Id="SetNCOverlaysWindowClassName" Property="WNDCLASSNAMEFORMESSAGESEND" Value="$(var.NCOverlaysShellextWmUnloadMessage)" />
+    <CustomAction Id="SetNCOverlaysWmStringForMessageSend" Property="WMSTRINGFORMESSAGESEND" Value="$(var.CfApiShellextWndClassName)" />
 
       <!-- Helper DLL Custom Actions -->
     <SetProperty Id="ExecNsisUninstaller" Value="&quot;$(var.AppShortName)&quot; &quot;[NSIS_UNINSTALLEXE]&quot;" Before="ExecNsisUninstaller" Sequence="execute" />
@@ -82,11 +85,14 @@
 
     <InstallExecuteSequence>
       <Custom Action="SetCfApiWindowClassName" Before="InstallValidate"/>
-      <Custom Action="CloseCfApiShellExtension" After="SetCfApiWindowClassName" />
-      <Custom Action="SetNCContextMenuWindowClassName" After="CloseCfApiShellExtension"/>
-      <Custom Action="CloseNCContextMenuShellExtension" After="SetNCContextMenuWindowClassName" />
-      <Custom Action="SetNCOverlaysWindowClassName" After="CloseNCContextMenuShellExtension"/>
-      <Custom Action="CloseNCOverlaysShellExtension" After="SetNCOverlaysWindowClassName" />
+      <Custom Action="SetCfApiWindowWmStringForMessageSend" After="SetCfApiWindowClassName"/>
+      <Custom Action="SendWindowMessageToCfApiShellExtension" After="SetCfApiWindowWmStringForMessageSend" />
+      <Custom Action="SetNCContextMenuWindowClassName" After="SendWindowMessageToCfApiShellExtension"/>
+      <Custom Action="SetNCContextMenuWmStringForMessageSend" After="SetNCContextMenuWindowClassName"/>
+      <Custom Action="SendWindowMessageToNCContextMenuShellExtension" After="SetNCContextMenuWmStringForMessageSend" />
+      <Custom Action="SetNCOverlaysWindowClassName" After="SendWindowMessageToNCContextMenuShellExtension"/>
+      <Custom Action="SetNCOverlaysWmStringForMessageSend" After="SetNCOverlaysWindowClassName"/>
+      <Custom Action="SendWindowMessageToNCOverlaysShellExtension" After="SetNCOverlaysWmStringForMessageSend" />
         <!-- Install: Remove previous NSIS installation, if detected -->
         <Custom Action="ExecNsisUninstaller" Before="ProcessComponents">NSIS_UNINSTALLEXE AND NOT Installed</Custom>
 

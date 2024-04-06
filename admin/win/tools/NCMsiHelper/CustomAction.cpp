@@ -112,19 +112,19 @@ UINT LogMsiInfoMessage(MSIHANDLE hInstall, const TCHAR *format, ...)
     return MsiProcessMessage(hInstall, INSTALLMESSAGE_INFO, hRecord);
 }
 
-UINT __stdcall CloseWindowByClassName(MSIHANDLE hInstall)
+UINT __stdcall SendWindowMessageByWindowClassName(MSIHANDLE hInstall)
 {
-    const auto windowClassPropertyName = _T("WNDCLASSNAMETOCLOSE");
+    const auto windowClassPropertyName = _T("WNDCLASSNAMEFORMESSAGESEND");
     DWORD windowClassNameSize = 0;
     if (MsiGetProperty(hInstall, windowClassPropertyName, _T(""), &windowClassNameSize) != ERROR_MORE_DATA) {
         LogMsiInfoMessage(hInstall,
-                          _T("ERROR: Custom action CloseWindowByClassName. MsiGetProperty failed for windowClassPropertyName: %s"),
+                          _T("ERROR: Custom action SendWindowMessageByWindowClassName. MsiGetProperty failed for windowClassPropertyName: %s"),
                           windowClassPropertyName);
         return ERROR_BAD_ARGUMENTS;
     }
 
     if (windowClassNameSize <= 0) {
-        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action CloseWindowByClassName. classNameSize is <= 0!"));
+        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action SendWindowMessageByWindowClassName. classNameSize is <= 0!"));
         return ERROR_BAD_ARGUMENTS;
     }
 
@@ -134,29 +134,81 @@ UINT __stdcall CloseWindowByClassName(MSIHANDLE hInstall)
     std::vector<char> vec;
     const auto getPropertyRes = MsiGetProperty(hInstall, windowClassPropertyName, windowClassNameValue.data(), &windowClassNameSize);
     if (getPropertyRes != ERROR_SUCCESS) {
-        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action CloseWindowByClassName. MsiGetProperty failed for windowClassPropertyName: %s with code: %d"),
+        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action SendWindowMessageByWindowClassName. MsiGetProperty failed for windowClassPropertyName: %s with code: %d"),
             windowClassNameValue.data(),
             getPropertyRes);
         return getPropertyRes;
     }
 
     if (windowClassNameSize <= 0) {
-        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action CloseWindowByClassName. Final classNameSize is <= 0!"));
+        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action SendWindowMessageByWindowClassName. Final classNameSize is <= 0!"));
         return ERROR_BAD_ARGUMENTS;
     }
 
-    LogMsiInfoMessage(hInstall, _T("Custom action CloseWindowByClassName is running for windowClassNameValue: %s"), windowClassNameValue.data());
+    LogMsiInfoMessage(hInstall, _T("Custom action SendWindowMessageByWindowClassName is running for windowClassNameValue: %s"), windowClassNameValue.data());
+
+    // get custom message string
+    const auto customWindowMessagePropertyName = _T("WMSTRINGFORMESSAGESEND");
+    DWORD customWindowMessagesStringSize = 0;
+    if (MsiGetProperty(hInstall, customWindowMessagePropertyName, _T(""), &customWindowMessagesStringSize) != ERROR_MORE_DATA) {
+        LogMsiInfoMessage(hInstall,
+                          _T("ERROR: Custom action SendWindowMessageByWindowClassName. MsiGetProperty failed for customWindowMessagePropertyName: %s"),
+                          customWindowMessagePropertyName);
+        return ERROR_BAD_ARGUMENTS;
+    }
+
+    if (customWindowMessagesStringSize <= 0) {
+        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action SendWindowMessageByWindowClassName. customWindowMessagesStringSize is <= 0!"));
+        return ERROR_BAD_ARGUMENTS;
+    }
+
+    ++customWindowMessagesStringSize;
+
+    std::vector<TCHAR> customWindowMessageStringValue(customWindowMessagesStringSize, 0);
+    std::vector<char> vec;
+    const auto getPropertyRes =
+        MsiGetProperty(hInstall, customWindowMessagePropertyName, customWindowMessageStringValue.data(), &customWindowMessagesStringSize);
+    if (getPropertyRes != ERROR_SUCCESS) {
+        LogMsiInfoMessage(hInstall,
+                          _T("ERROR: Custom action SendWindowMessageByWindowClassName. MsiGetProperty failed for customWindowMessagePropertyName: %s with code: %d"),
+                          customWindowMessageStringValue.data(),
+                          getPropertyRes);
+        return getPropertyRes;
+    }
+
+    if (customWindowMessagesStringSize <= 0) {
+        LogMsiInfoMessage(hInstall, _T("ERROR: Custom action SendWindowMessageByWindowClassName. Final customWindowMessagesStringSize is <= 0!"));
+        return ERROR_BAD_ARGUMENTS;
+    }
+
+    LogMsiInfoMessage(hInstall,
+                      _T("Custom action SendWindowMessageByWindowClassName is running for windowClassNameValue: %s and customWindowMessageStringValue: %s"),
+                      windowClassNameValue.data(),
+                      customWindowMessageStringValue.data());
 
     const auto windowToCloseHandle = FindWindow(windowClassNameValue.data(), NULL);
     if (windowToCloseHandle == NULL) {
-        LogMsiInfoMessage(hInstall, _T("WARNING: Custom action CloseWindowByClassName. windowToCloseHandle is NULL."));
+        LogMsiInfoMessage(hInstall, _T("WARNING: Custom action SendWindowMessageByWindowClassName. windowToCloseHandle is NULL."));
         // FindWindow will return NULL if the window is not currently running, so not an error
         return ERROR_SUCCESS;
     }
 
-    LogMsiInfoMessage(hInstall, _T("Custom action CloseWindowByClassName. Sending WM_CLOSE message to windowClassNameValue: %s"), windowClassNameValue.data());
+    LogMsiInfoMessage(
+        hInstall,
+        _T("Custom action SendWindowMessageByWindowClassName. Sending WM_CLOSE message to windowClassNameValue: %s and customWindowMessageStringValue: %s"),
+        windowClassNameValue.data(),
+        customWindowMessageStringValue);
 
-    SendMessage(windowToCloseHandle, WM_CLOSE, 0, 0);
+    const auto wmCode = RegisterWindowMessage(customWindowMessageStringValue.data());
+
+    if (wmCode == 0) {
+        LogMsiInfoMessage(hInstall,
+                          _T("WARNING: Custom action SendWindowMessageByWindowClassName. Failed to register message for customWindowMessageStringValue: %s."),
+                          customWindowMessageStringValue.data());
+        return ERROR_SUCCESS;
+    }
+
+    SendMessage(windowToCloseHandle, wmCode, 0, 0);
 
     return ERROR_SUCCESS;
 }

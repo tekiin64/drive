@@ -1,4 +1,4 @@
 EXPORTS
-CloseWindowByClassName
+SendWindowMessageByWindowClassName
 ExecNsisUninstaller
 RemoveNavigationPaneEntries
