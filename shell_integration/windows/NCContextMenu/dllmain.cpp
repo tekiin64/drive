@@ -185,30 +185,14 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    auto wParamStr = std::to_string(wParam);
-    auto lParamStr = std::to_string(lParam);
+    std::wstring wParamStr = std::to_wstring(wParam);
+    std::wstring lParamStr = std::to_wstring(lParam);
 
+    // Concatenate the values to the message
+    std::wstring message = L"WM_CLOSE is received! WPARAM: " + wParamStr + L"\nLPARAM: " + lParamStr;
     switch (msg) {
     case WM_CLOSE: {
-
-        // Define the file path
-        std::string filePath = "C:\\Users\\alex-z\\AppData\\Local\\Nextcloud\\shellext.txt";
-
-        // Open the file in Append mode
-        std::ofstream file(filePath, std::ios::app);
-        if (file.is_open()) {
-             // Get current timestamp
-            time_t now = time(0);
-            tm *ltm = localtime(&now);
-            char timestamp[20];
-            strftime(timestamp, 20, "%Y-%m-%d %H:%M:%S", ltm);
-
-            // Append current timestamp and text to the file
-            file << timestamp << " overlay ext unloaded! wParamStr: " << wParamStr << " lParamStr: " << lParamStr << std::endl;
-
-            // Close the file
-            file.close();
-        }
+        MessageBox(hwnd, message.c_str(), L"Attach now!!!", MB_OK);
         FreeLibrary(g_hInst);
         break;
     }
