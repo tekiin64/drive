@@ -189,7 +189,7 @@ void CreateHiddenWindowAndLaunchMessageLoop()
                                        HiddenWndProc,
                                        0L,
                                        0L,
-                                       GetModuleHandle(NULL),
+                                       instanceHandle,
                                        NULL,
                                        NULL,
                                        NULL,

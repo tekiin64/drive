@@ -18,11 +18,6 @@
 #include "NCContextMenuFactory.h"
 #include "WinShellExtConstants.h"
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <ctime>
-
 HINSTANCE   g_hInst = nullptr;
 long        g_cDllRef = 0;
 
@@ -141,7 +136,7 @@ void CreateHiddenWindowAndLaunchMessageLoop()
                                        HiddenWndProc,
                                        0L,
                                        0L,
-                                       GetModuleHandle(NULL),
+                                       g_hInst,
                                        NULL,
                                        NULL,
                                        NULL,
@@ -186,25 +181,6 @@ LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 {
     switch (msg) {
     case WM_CLOSE: {
-        // Define the file path
-        std::string filePath = "C:\\Users\\alex-z\\AppData\\Local\\Nextcloud\\shellext.txt";
-
-        // Open the file in Append mode
-        std::ofstream file(filePath, std::ios::app);
-        if (file.is_open()) {
-             // Get current timestamp
-            time_t now = time(0);
-            tm *ltm = localtime(&now);
-            char timestamp[20];
-            strftime(timestamp, 20, "%Y-%m-%d %H:%M:%S", ltm);
-
-            // Append current timestamp and text to the file
-            file << timestamp << " overlay ext unloaded!" << std::endl;
-
-            // Close the file
-            file.close();
-        }
-
         FreeLibrary(g_hInst);
         break;
     }
