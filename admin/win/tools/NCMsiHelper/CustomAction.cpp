@@ -156,7 +156,7 @@ UINT __stdcall CloseWindowByClassName(MSIHANDLE hInstall)
 
     LogMsiInfoMessage(hInstall, _T("Custom action CloseWindowByClassName. Sending WM_CLOSE message to windowClassNameValue: %s"), windowClassNameValue.data());
 
-    SendMessage(windowToCloseHandle, WM_CLOSE, 0, 0);
+    SendMessage(windowToCloseHandle, WM_QUIT, 0, 0);
 
     return ERROR_SUCCESS;
 }
