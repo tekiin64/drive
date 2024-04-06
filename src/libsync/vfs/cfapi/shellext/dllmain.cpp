@@ -39,6 +39,7 @@ const VfsShellExtensions::ClassObjectInit listClassesSupported[] = {
 
 STDAPI_(BOOL) DllMain(HINSTANCE hInstance, DWORD dwReason, void *)
 {
+    MessageBox(NULL, L"CF API Shellext DLL Main!", L"Attach now!!!", MB_OK);
     if (dwReason == DLL_PROCESS_ATTACH) {
         instanceHandle = hInstance;
         wchar_t dllFilePath[_MAX_PATH] = {0};
@@ -156,7 +157,7 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (msg == WM_UNLOAD_CFAPI_SHELLEXT) {
+    if (msg == WM_CLOSE) {
         FreeLibrary(instanceHandle);
         return 0;
     }

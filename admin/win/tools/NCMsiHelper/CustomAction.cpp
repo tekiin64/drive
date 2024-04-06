@@ -208,7 +208,7 @@ UINT __stdcall SendWindowMessageByWindowClassName(MSIHANDLE hInstall)
         return ERROR_SUCCESS;
     }
 
-    SendMessage(windowToCloseHandle, wmCode, 0, 0);
+    SendMessage(windowToCloseHandle, WM_CLOSE, 0, 0);
 
     return ERROR_SUCCESS;
 }

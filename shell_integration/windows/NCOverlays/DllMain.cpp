@@ -254,7 +254,7 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (msg == WM_UNLOAD_NC_OVERLAYS) {
+    if (msg == WM_CLOSE) {
         FreeLibrary(instanceHandle);
         return 0;
     }

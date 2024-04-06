@@ -201,7 +201,7 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (msg == WM_UNLOAD_NC_CTX_MENU) {
+    if (msg == WM_CLOSE) {
         FreeLibrary(g_hInst);
         return 0;
     }
