@@ -21,15 +21,16 @@
 long dllReferenceCount = 0;
 long dllObjectsCount = 0;
 
-HINSTANCE instanceHandle = nullptr;
+HINSTANCE instanceHandle = NULL;
 
 HRESULT CustomStateProvider_CreateInstance(REFIID riid, void **ppv);
 HRESULT ThumbnailProvider_CreateInstance(REFIID riid, void **ppv);
 
-HWND hHiddenWnd = nullptr;
+HWND hHiddenWnd = NULL;
 DWORD WINAPI MessageLoopThread(LPVOID lpParameter);
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateHiddenWindowAndLaunchMessageLoop();
+UINT WM_UNLOAD_CFAPI_SHELLEXT = 0;
 
 const VfsShellExtensions::ClassObjectInit listClassesSupported[] = {
     {&__uuidof(winrt::CfApiShellExtensions::implementation::CustomStateProvider), CustomStateProvider_CreateInstance},
@@ -44,7 +45,6 @@ STDAPI_(BOOL) DllMain(HINSTANCE hInstance, DWORD dwReason, void *)
         ::GetModuleFileName(instanceHandle, dllFilePath, _MAX_PATH);
         winrt::CfApiShellExtensions::implementation::CustomStateProvider::setDllFilePath(dllFilePath);
         DisableThreadLibraryCalls(hInstance);
-  
         CreateHiddenWindowAndLaunchMessageLoop();
     }
 
@@ -84,13 +84,17 @@ HRESULT ThumbnailProvider_CreateInstance(REFIID riid, void **ppv)
 
 void CreateHiddenWindowAndLaunchMessageLoop()
 {
+    if (instanceHandle == NULL) {
+        return;
+    }
+
     const WNDCLASSEX hiddenWindowClass {
         sizeof(WNDCLASSEX),
         CS_CLASSDC,
         HiddenWndProc,
         0L,
         0L,
-        GetModuleHandle(NULL),
+        instanceHandle,
         NULL,
         NULL,
         NULL,
@@ -99,7 +103,14 @@ void CreateHiddenWindowAndLaunchMessageLoop()
         NULL
     };
 
-    RegisterClassEx(&hiddenWindowClass);
+    if (RegisterClassEx(&hiddenWindowClass) == 0) {
+        return;
+    }
+
+    WM_UNLOAD_CFAPI_SHELLEXT = RegisterWindowMessage(_T(CFAPI_SHELLEXT_WM_UNLOAD_MESSAGE));
+    if (WM_UNLOAD_CFAPI_SHELLEXT == 0) {
+        return;
+    }
 
     hHiddenWnd = CreateWindow(
         hiddenWindowClass.lpszClassName,
@@ -114,13 +125,23 @@ void CreateHiddenWindowAndLaunchMessageLoop()
         hiddenWindowClass.hInstance,
         NULL);
 
+    if (hHiddenWnd == NULL) {
+        return;
+    }
+
     ShowWindow(hHiddenWnd, SW_HIDE);
-    UpdateWindow(hHiddenWnd);
+
+    if (!UpdateWindow(hHiddenWnd)) {
+        DestroyWindow(hHiddenWnd);
+        return;
+    }
 
     const auto hMessageLoopThread = CreateThread(NULL, 0, MessageLoopThread, NULL, 0, NULL);
-    if (hMessageLoopThread) {
-        CloseHandle(hMessageLoopThread);
+    if (!hMessageLoopThread) {
+        DestroyWindow(hHiddenWnd);
+        return;
     }
+    CloseHandle(hMessageLoopThread);
 }
 
 DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
@@ -135,12 +156,9 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    switch (msg) {
-    case WM_CLOSE:
+    if (msg == WM_UNLOAD_CFAPI_SHELLEXT) {
         FreeLibrary(instanceHandle);
-        break;
-    default:
-        return DefWindowProc(hwnd, msg, wParam, lParam);
+        return 0;
     }
-    return 0;
+    return DefWindowProc(hwnd, msg, wParam, lParam);
 }

@@ -24,14 +24,14 @@
 #include <string>
 #include <ctime>
 
-HINSTANCE   g_hInst = nullptr;
-long        g_cDllRef = 0;
+HINSTANCE g_hInst = NULL;
+long      g_cDllRef = 0;
 
-HWND hHiddenWnd = nullptr;
+HWND hHiddenWnd = NULL;
 DWORD WINAPI MessageLoopThread(LPVOID lpParameter);
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateHiddenWindowAndLaunchMessageLoop();
-UINT WM_UNLOAD_NC_CTX_MENU = UINT_MAX;
+UINT WM_UNLOAD_NC_CTX_MENU = 0;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
@@ -138,6 +138,10 @@ STDAPI DllUnregisterServer(void)
 
 void CreateHiddenWindowAndLaunchMessageLoop()
 {
+    if (g_hInst == NULL) {
+        return;
+    }
+
     const WNDCLASSEX hiddenWindowClass{sizeof(WNDCLASSEX),
                                        CS_CLASSDC,
                                        HiddenWndProc,
@@ -156,8 +160,7 @@ void CreateHiddenWindowAndLaunchMessageLoop()
     }
 
     WM_UNLOAD_NC_CTX_MENU = RegisterWindowMessage(NCCONTEXTMENU_SHELLEXT_WM_UNLOAD_MESSAGE);
-
-    if (WM_UNLOAD_NC_CTX_MENU == UINT_MAX) {
+    if (WM_UNLOAD_NC_CTX_MENU == 0) {
         return;
     }
 

@@ -61,8 +61,8 @@
 	    </RegistrySearch>
     </Property>
       
-    <Property Id="IS_PREV_VERSION_SHELL_EXT_CLOSE_SUPPORTED">
-        <RegistrySearch Id="RegIsPrevVersionShellExtCloseSupported" Type="raw" Root="HKLM" Key="Software\$(var.AppVendor)\$(var.AppName)" Name="isShellExtCloseSupported" Win64="$(var.PlatformWin64)" />
+    <Property Id="IS_PREV_VERSION_SEND_WINDOW_MESSAGE_SUPPORTED">
+        <RegistrySearch Id="RegIsPrevVersionSendWndMessageSupported" Type="raw" Root="HKLM" Key="Software\$(var.AppVendor)\$(var.AppName)" Name="isPrevVersSndWndMsgSupported" Win64="$(var.PlatformWin64)" />
     </Property>
 
     <!-- Property to disable update checks -->
@@ -102,7 +102,7 @@
 		<!-- Uninstall: Cleanup the Registry -->
 		<Custom Action="RegistryCleanupCustomAction" After="RemoveFiles">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
         <!-- Schedule Reboot for the Shell Extensions (only if SCHEDULE_REBOOT argument is set or if th version is less than 3.12.2 -->
-      <ScheduleReboot After="InstallFinalize">(SCHEDULE_REBOOT=1) OR ((NOT (UILevel=2)) AND (NOT IS_PREV_VERSION_SHELL_EXT_CLOSE_SUPPORTED))</ScheduleReboot>
+      <ScheduleReboot After="InstallFinalize">(SCHEDULE_REBOOT=1) OR ((NOT (UILevel=2)) AND (NOT IS_PREV_VERSION_SEND_WINDOW_MESSAGE_SUPPORTED))</ScheduleReboot>
     </InstallExecuteSequence>
 
     <!-- "Add or Remove" Programs Entries -->
@@ -206,7 +206,7 @@
         </Component>
       <Component Id="RegistryMiscInfo" Guid="*" Win64="$(var.PlatformWin64)">
         <RegistryKey Root="HKLM" Key="Software\$(var.AppVendor)\$(var.AppName)">
-          <RegistryValue Type="integer" Name="isShellExtCloseSupported" Value="1" />
+          <RegistryValue Type="integer" Name="isPrevVersSndWndMsgSupported" Value="1" />
         </RegistryKey>
       </Component>
 
