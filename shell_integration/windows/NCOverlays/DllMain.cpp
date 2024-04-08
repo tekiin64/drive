@@ -233,9 +233,10 @@ DWORD WINAPI MessageLoopThread(LPVOID lpParameter)
 LRESULT CALLBACK HiddenWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {
-    case WM_CLOSE:
-        FreeLibraryAndExitThread(instanceHandle, 0);
+    case WM_CLOSE: {
+        ExitProcess(0);
         break;
+    }
     default:
         return DefWindowProc(hwnd, msg, wParam, lParam);
     }
