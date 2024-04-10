@@ -21,6 +21,7 @@
 #include "hydrationjob.h"
 #include "syncfileitem.h"
 #include "filesystem.h"
+#include "common/filesystembase.h"
 #include "common/syncjournaldb.h"
 #include "config.h"
 
@@ -47,7 +48,7 @@ bool registerShellExtension()
     // assume CFAPI_SHELL_EXTENSIONS_LIB_NAME is always in the same folder as the main executable
     // assume CFAPI_SHELL_EXTENSIONS_LIB_NAME is always in the same folder as the main executable
     const auto shellExtensionDllPath = QDir::toNativeSeparators(QString(QCoreApplication::applicationDirPath() + QStringLiteral("/") + CFAPI_SHELL_EXTENSIONS_LIB_NAME + QStringLiteral(".dll")));
-    if (!QFileInfo::exists(shellExtensionDllPath)) {
+    if (!OCC::FileSystem::fileExists(shellExtensionDllPath)) {
         Q_ASSERT(false);
         qCWarning(lcCfApi) << "Register CfAPI shell extensions failed. Dll does not exist in " << QCoreApplication::applicationDirPath();
         return false;
@@ -235,16 +236,6 @@ Result<void, QString> VfsCfApi::dehydratePlaceholder(const SyncFileItem &item)
 Result<Vfs::ConvertToPlaceholderResult, QString> VfsCfApi::convertToPlaceholder(const QString &filename, const SyncFileItem &item, const QString &replacesFile, UpdateMetadataTypes updateType)
 {
     const auto localPath = QDir::toNativeSeparators(filename);
-
-    if (item._type != ItemTypeDirectory && OCC::FileSystem::isLnkFile(filename)) {
-        qCInfo(lcCfApi) << "File \"" << filename << "\" is a Windows shortcut. Not converting it to a placeholder.";
-        const auto pinState = pinStateLocal(localPath);
-        if (!pinState || *pinState != PinState::Excluded) {
-            setPinStateLocal(localPath, PinState::Excluded);
-        }
-        return Vfs::ConvertToPlaceholderResult::Ok;
-    }
-
     const auto replacesPath = QDir::toNativeSeparators(replacesFile);
 
     if (cfapi::findPlaceholderInfo(localPath)) {
@@ -280,8 +271,6 @@ bool VfsCfApi::statTypeVirtualFile(csync_file_stat_t *stat, void *statData)
     const auto hasReparsePoint = (ffd->dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0;
     const auto hasCloudTag = hasReparsePoint && (ffd->dwReserved0 & ~IO_REPARSE_TAG_CLOUD_MASK) == (IO_REPARSE_TAG_CLOUD & ~IO_REPARSE_TAG_CLOUD_MASK);
 
-    const auto isWindowsShortcut = !isDirectory && FileSystem::isLnkFile(stat->path);
-
     const auto isExcludeFile = !isDirectory && FileSystem::isExcludeFile(stat->path);
 
     stat->is_metadata_missing = !hasCloudTag;
@@ -297,7 +286,7 @@ bool VfsCfApi::statTypeVirtualFile(csync_file_stat_t *stat, void *statData)
     } else if (isSparseFile && isPinned) {
         stat->type = ItemTypeVirtualFileDownload;
         return true;
-    } else if (!isSparseFile && isUnpinned && !isWindowsShortcut && !isExcludeFile) {
+    } else if (!isSparseFile && isUnpinned && !isExcludeFile) {
         stat->type = ItemTypeVirtualFileDehydration;
         return true;
     } else if (isSparseFile) {
@@ -521,9 +510,10 @@ int VfsCfApi::finalizeHydrationJob(const QString &requestId)
 VfsCfApi::HydratationAndPinStates VfsCfApi::computeRecursiveHydrationAndPinStates(const QString &folderPath, const Optional<PinState> &basePinState)
 {
     Q_ASSERT(!folderPath.endsWith('/'));
+    const auto fullPath = params().filesystemPath + folderPath;
     QFileInfo info(params().filesystemPath + folderPath);
 
-    if (!info.exists()) {
+    if (!FileSystem::fileExists(fullPath)) {
         return {};
     }
     const auto effectivePin = pinState(folderPath);
@@ -532,7 +522,7 @@ VfsCfApi::HydratationAndPinStates VfsCfApi::computeRecursiveHydrationAndPinState
                          : (*effectivePin == *basePinState) ? *effectivePin
                          : PinState::Inherited;
 
-    if (info.isDir()) {
+    if (FileSystem::isDir(fullPath)) {
         const auto dirState = HydratationAndPinStates {
             pinResult,
             {}
