@@ -898,18 +898,10 @@ ApplicationWindow {
 
             active: false
 
-            sourceComponent: CustomButton {
+            sourceComponent: Button {
                 id: newActivitiesButton
                 hoverEnabled: true
                 padding: Style.smallSpacing
-
-                textColor: Style.currentUserHeaderTextColor
-                textColorHovered: Style.currentUserHeaderTextColor
-                contentsFont.bold: true
-                bgNormalColor: Qt.lighter(bgHoverColor, 1.25)
-                bgHoverColor: Style.currentUserHeaderColor
-                bgNormalOpacity: Style.newActivitiesBgNormalOpacity
-                bgHoverOpacity: Style.newActivitiesBgHoverOpacity
 
                 anchors.fill: parent
 
