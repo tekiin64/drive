@@ -26,7 +26,7 @@ Repeater {
 
     model: root.linksForActionButtons
 
-    CustomButton {
+    Button {
         id: activityActionButton
 
         property string verb: model.modelData.verb
@@ -36,18 +36,12 @@ Repeater {
 
         hoverEnabled: true
         padding: Style.smallSpacing
-        display: Button.TextOnly
 
         text: model.modelData.label
 
         icon.source: model.modelData.imageSource ? model.modelData.imageSource + Style.adjustedCurrentUserHeaderColor : ""
 
         onClicked: isTalkReplyButton ? root.showReplyField() : root.triggerAction(model.index)
-
-        textColor: Style.adjustedCurrentUserHeaderColor
-        textColorHovered: Style.currentUserHeaderTextColor
-        contentsFont.bold: true
-        bgColor: Style.currentUserHeaderColor
 
         visible: verb !== "REPLY" || (verb === "REPLY" && root.talkReplyButtonVisible)
     }
