@@ -157,11 +157,9 @@ RowLayout {
                 visible: text !== ""
             }
 
-            CustomButton {
+            Button {
                 id: fileDetailsButton
 
-                Layout.preferredWidth: Style.dismissButtonSize
-                Layout.preferredHeight: Style.dismissButtonSize
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
 
                 icon.source: "image://svgimage-custom-color/more.svg/" + palette.buttonText
@@ -174,15 +172,13 @@ RowLayout {
                 display: Button.IconOnly
                 leftPadding: 0
                 rightPadding: 0
-                bgColor: palette.mid
-                bgNormalOpacity:  0
 
                 visible: model.showFileDetails
 
                 onClicked: Systray.presentShareViewInTray(model.openablePath)
             }
 
-            CustomButton {
+            Button {
                 id: dismissActionButton
 
                 Layout.preferredWidth: Style.dismissButtonSize
@@ -196,8 +192,6 @@ RowLayout {
                 display: Button.IconOnly
                 leftPadding: 0
                 rightPadding: 0
-                bgColor: palette.mid
-                bgNormalOpacity: 0
 
                 NCToolTip {
                     text: qsTr("Dismiss")
