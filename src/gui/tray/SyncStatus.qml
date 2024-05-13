@@ -85,7 +85,7 @@ RowLayout {
         }
     }
 
-    CustomButton {
+    Button {
         id: syncNowButton
 
         FontMetrics {
@@ -96,12 +96,6 @@ RowLayout {
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Sync now")
-
-        padding: Style.smallSpacing
-        textColor: Style.adjustedCurrentUserHeaderColor
-        textColorHovered: Style.currentUserHeaderTextColor
-        contentsFont.bold: true
-        bgColor: Style.currentUserHeaderColor
 
         visible: !activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
@@ -115,7 +109,7 @@ RowLayout {
         }
     }
 
-    CustomButton {
+    Button {
         Layout.preferredWidth: syncNowFm.boundingRect(text).width +
                                leftPadding +
                                rightPadding +
@@ -123,10 +117,6 @@ RowLayout {
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Resolve conflicts")
-        textColor: Style.adjustedCurrentUserHeaderColor
-        textColorHovered: Style.currentUserHeaderTextColor
-        contentsFont.bold: true
-        bgColor: Style.currentUserHeaderColor
 
         visible: activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
