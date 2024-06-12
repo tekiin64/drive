@@ -208,9 +208,9 @@ target_link_libraries(nextcloudsync
   ${OS_SPECIFIC_LINK_LIBRARIES}
   Qt::Core
   Qt::Network
-  Qt::WebSockets
+  Qt${QT_MAJOR_VERSION}::WebSockets
   Qt::Xml
-  Qt::Sql
+  Qt${QT_MAJOR_VERSION}::Sql
   KF6::Archive
   Qt::Core5Compat
 )

@@ -597,10 +597,9 @@ target_include_directories(nextcloudCore
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(nextcloud main.cpp ${client_version} ${client_manifest} ${APP_ICON})
-
 if(NOT APPLE)
     if(NOT WIN32)
+        add_executable(nextcloud main.cpp ${client_version} ${APP_ICON})
         file(GLOB _icons "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-icon.png")
         foreach(_file ${_icons})
             string(REPLACE "${theme_dir}/colored/" "" _res ${_file})
@@ -611,6 +610,7 @@ if(NOT APPLE)
         endforeach(_file)
         install(FILES ${client_I18N} DESTINATION ${CMAKE_INSTALL_DATADIR}/${APPLICATION_EXECUTABLE}/i18n)
     else()
+        add_executable(nextcloud WIN32 main.cpp ${client_version} ${client_manifest} ${APP_ICON})
         file(GLOB_RECURSE VISUAL_ELEMENTS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-w10startmenu*")
         install(FILES ${VISUAL_ELEMENTS} DESTINATION bin/visualelements)
         install(FILES "${theme_dir}/${APPLICATION_EXECUTABLE}.VisualElementsManifest.xml" DESTINATION bin)
@@ -619,15 +619,29 @@ if(NOT APPLE)
 
     set_target_properties(nextcloud PROPERTIES OUTPUT_NAME "${APPLICATION_EXECUTABLE}")
 else()
+    qt_add_executable(nextcloud MACOSX_BUNDLE main.cpp ${client_version} ${APP_ICON})
+
     target_sources(${APPLICATION_EXECUTABLE} PRIVATE ${OWNCLOUD_BUNDLED_RESOURCES})
 
     set(MACOSX_BUNDLE_ICON_FILE "${APPLICATION_ICON_NAME}.icns")
 
     set_source_files_properties(${client_I18N} PROPERTIES MACOSX_PACKAGE_LOCATION Resources/Translations)
     set_source_files_properties(${NEXTCLOUD_BUNDLED_RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-    set_target_properties(${APPLICATION_EXECUTABLE} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist)
-    set_target_properties(nextcloud PROPERTIES OUTPUT_NAME "${APPLICATION_NAME}")
-    set_target_properties(nextcloud PROPERTIES OUTPUT_NAME "${APPLICATION_EXECUTABLE}")
+    set_source_files_properties(${MACOSX_BUNDLE_ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    set_target_properties(nextcloud PROPERTIES
+            OUTPUT_NAME ${APPLICATION_NAME}
+            BUNDLE True
+            MACOSX_BUNDLE ON
+            MACOSX_BUNDLE_GUI_IDENTIFIER ${APPLICATION_REV_DOMAIN}
+            MACOSX_BUNDLE_BUNDLE_NAME ${APPLICATION_NAME}
+            MACOSX_BUNDLE_BUNDLE_VERSION ${MIRALL_VERSION}
+            MACOSX_BUNDLE_SHORT_VERSION_STRING ${MIRALL_VERSION}
+            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/MacOSXBundleInfo.plist.in
+    )
+
+    get_target_property(_qmake_executable Qt6::qmake IMPORTED_LOCATION)
+    get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
+    find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_qt_bin_dir}")
 endif()
 
 IF(BUILD_UPDATER)
