@@ -128,9 +128,18 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 namespace OCC {
 
+bool bundleAvailable()
+{
+    return NSRunningApplication.currentApplication.bundleIdentifier != nil;
+}
+
 // TODO: Get this to actually check for permissions
 bool canOsXSendUserNotification()
 {
+    if (!bundleAvailable()) {
+        return false;
+    }
+
     UNUserNotificationCenter * const center = UNUserNotificationCenter.currentNotificationCenter;
     return center != nil;
 }

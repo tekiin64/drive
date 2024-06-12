@@ -80,9 +80,11 @@ Systray::Systray()
     : QSystemTrayIcon(nullptr)
 {
 #if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
-    setUserNotificationCenterDelegate();
-    checkNotificationAuth(MacNotificationAuthorizationOptions::Default); // No provisional auth, ask user explicitly first time
-    registerNotificationCategories(QString(tr("Download")));
+    if (bundleAvailable()) {
+        setUserNotificationCenterDelegate();
+        checkNotificationAuth(MacNotificationAuthorizationOptions::Default); // No provisional auth, ask user explicitly first time
+        registerNotificationCategories(QString(tr("Download")));
+    }
 #elif !defined(Q_OS_MACOS)
     connect(AccountManager::instance(), &AccountManager::accountAdded,
         this, &Systray::setupContextMenu);
@@ -535,7 +537,7 @@ void Systray::showMessage(const QString &title, const QString &message, MessageI
     } else
 #endif
 #if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
-        if (canOsXSendUserNotification()) {
+    if (canOsXSendUserNotification()) {
         sendOsXUserNotification(title, message);
     } else
 #endif
@@ -547,23 +549,29 @@ void Systray::showMessage(const QString &title, const QString &message, MessageI
 void Systray::showUpdateMessage(const QString &title, const QString &message, const QUrl &webUrl)
 {
 #if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
-    sendOsXUpdateNotification(title, message, webUrl);
+    if (canOsXSendUserNotification()) {
+        sendOsXUpdateNotification(title, message, webUrl);
+        return;
+    }
 #else // TODO: Implement custom notifications (i.e. actionable) for other OSes
     Q_UNUSED(webUrl);
-    showMessage(title, message);
 #endif
+    showMessage(title, message);
 }
 
 void Systray::showTalkMessage(const QString &title, const QString &message, const QString &token, const QString &replyTo, const AccountStatePtr &accountState)
 {
 #if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
-    sendOsXTalkNotification(title, message, token, replyTo, accountState);
+    if (canOsXSendUserNotification()) {
+        sendOsXTalkNotification(title, message, token, replyTo, accountState);
+        return;
+    }
 #else // TODO: Implement custom notifications (i.e. actionable) for other OSes
     Q_UNUSED(replyTo)
     Q_UNUSED(token)
     Q_UNUSED(accountState)
-    showMessage(title, message);
 #endif
+    showMessage(title, message);
 }
 
 void Systray::setToolTip(const QString &tip)

@@ -49,6 +49,7 @@ enum MacNotificationAuthorizationOptions {
 void setUserNotificationCenterDelegate();
 void checkNotificationAuth(MacNotificationAuthorizationOptions authOptions = MacNotificationAuthorizationOptions::Provisional);
 void registerNotificationCategories(const QString &localizedDownloadString);
+bool bundleAvailable();
 bool canOsXSendUserNotification();
 void sendOsXUserNotification(const QString &title, const QString &message);
 void sendOsXUpdateNotification(const QString &title, const QString &message, const QUrl &webUrl);
