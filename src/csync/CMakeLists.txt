@@ -104,28 +104,7 @@ set_target_properties(
       ARCHIVE_OUTPUT_NAME
         ${APPLICATION_EXECUTABLE}_csync
 )
-if(BUILD_OWNCLOUD_OSX_BUNDLE)
-  INSTALL(
-    TARGETS
-    nextcloud_csync
-    LIBRARY DESTINATION
-	${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION
-	${LIB_INSTALL_DIR}
-    RUNTIME DESTINATION
-	${BIN_INSTALL_DIR}
-    )
-else()
-  INSTALL(
-  TARGETS
-  nextcloud_csync
-  LIBRARY DESTINATION
-    ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION
-    ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION
-    ${CMAKE_INSTALL_BINDIR}
-  )
-endif()
+
+install(TARGETS nextcloud_csync ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 configure_file(config_csync.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config_csync.h)
