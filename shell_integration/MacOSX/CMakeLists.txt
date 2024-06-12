@@ -57,17 +57,17 @@ if(APPLE)
 
     add_custom_command(TARGET mac_overlayplugin
         POST_BUILD COMMAND ${CMAKE_COMMAND}
-        ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FinderSyncExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/PlugIns/FinderSyncExt.appex"
+        ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FinderSyncExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/../PlugIns/FinderSyncExt.appex"
         MAIN_DEPENDENCY "${mac_overlayplugin}")
 
     if (BUILD_FILE_PROVIDER_MODULE)
         add_custom_command(TARGET mac_overlayplugin
             POST_BUILD COMMAND ${CMAKE_COMMAND}
-            ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FileProviderExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/PlugIns/FileProviderExt.appex"
+            ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FileProviderExt.appex" "$<TARGET_FILE_DIR:${MACOSX_PACKAGE_LOCATION}>/../PlugIns/FileProviderExt.appex"
             MAIN_DEPENDENCY "${mac_fileproviderplugin}")
         add_custom_command(TARGET mac_overlayplugin
             POST_BUILD COMMAND ${CMAKE_COMMAND}
-            ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FileProviderUIExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/PlugIns/FileProviderUIExt.appex"
+            ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FileProviderUIExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/../PlugIns/FileProviderUIExt.appex"
             MAIN_DEPENDENCY "${mac_fileproviderplugin}")
     endif()
 endif()
