@@ -318,12 +318,6 @@ IF( APPLE )
         add_definitions(-DHAVE_SPARKLE)
         list(APPEND updater_SRCS updater/sparkleupdater_mac.mm updater/sparkleupdater.h)
         list(APPEND updater_DEPS ${SPARKLE_LIBRARY})
-
-        # Sparkle.framework is installed from here because macdeployqt's CopyFramework breaks on this bundle
-        # as its logic is tightly tailored around Qt frameworks
-        install(DIRECTORY "${SPARKLE_LIBRARY}"
-                DESTINATION "${OWNCLOUD_OSX_BUNDLE}/Contents/Frameworks" USE_SOURCE_PERMISSIONS)
-
    endif()
 ENDIF()
 
@@ -642,6 +636,11 @@ else()
     get_target_property(_qmake_executable Qt6::qmake IMPORTED_LOCATION)
     get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
     find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_qt_bin_dir}")
+
+    if(SPARKLE_FOUND AND BUILD_UPDATER)
+        install(DIRECTORY "${SPARKLE_LIBRARY}"
+                DESTINATION "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/../Frameworks" USE_SOURCE_PERMISSIONS)
+    endif()
 endif()
 
 IF(BUILD_UPDATER)
