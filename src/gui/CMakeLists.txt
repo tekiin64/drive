@@ -597,13 +597,17 @@ target_include_directories(nextcloudCore
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-if(NOT BUILD_OWNCLOUD_OSX_BUNDLE)
+add_executable(nextcloud main.cpp ${client_version} ${client_manifest} ${APP_ICON})
+
+if(NOT APPLE)
     if(NOT WIN32)
         file(GLOB _icons "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-icon.png")
         foreach(_file ${_icons})
             string(REPLACE "${theme_dir}/colored/" "" _res ${_file})
             string(REPLACE "-${APPLICATION_ICON_NAME}-icon.png" "" _res ${_res})
-            install(FILES ${_file} RENAME ${APPLICATION_ICON_NAME}.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_res}x${_res}/apps)
+            install(FILES ${_file}
+                    RENAME ${APPLICATION_ICON_NAME}.png
+                    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_res}x${_res}/apps)
         endforeach(_file)
         install(FILES ${client_I18N} DESTINATION ${CMAKE_INSTALL_DATADIR}/${APPLICATION_EXECUTABLE}/i18n)
     else()
@@ -613,39 +617,17 @@ if(NOT BUILD_OWNCLOUD_OSX_BUNDLE)
         install(FILES ${client_I18N} DESTINATION i18n)
     endif()
 
-    # we may not add MACOSX_BUNDLE here, if not building one
-    add_executable(nextcloud WIN32 main.cpp ${client_version} ${client_manifest} ${APP_ICON})
-    set_target_properties(nextcloud PROPERTIES
-      OUTPUT_NAME "${APPLICATION_EXECUTABLE}"
-    )
+    set_target_properties(nextcloud PROPERTIES OUTPUT_NAME "${APPLICATION_EXECUTABLE}")
 else()
-    # set(CMAKE_INSTALL_PREFIX ".") # Examples use /Applications. hurmpf.
+    target_sources(${APPLICATION_EXECUTABLE} PRIVATE ${OWNCLOUD_BUNDLED_RESOURCES})
+
     set(MACOSX_BUNDLE_ICON_FILE "${APPLICATION_ICON_NAME}.icns")
 
-    # we must add MACOSX_BUNDLE only if building a bundle
-    add_executable(nextcloud WIN32 MACOSX_BUNDLE main.cpp ${APP_ICON})
-
-    if (BUILD_OWNCLOUD_OSX_BUNDLE)
-      set_target_properties(nextcloud PROPERTIES
-        OUTPUT_NAME "${APPLICATION_NAME}")
-    else()
-      set_target_properties(nextcloud PROPERTIES
-        OUTPUT_NAME "${APPLICATION_EXECUTABLE}")
-    endif()
-
-    set (QM_DIR ${OWNCLOUD_OSX_BUNDLE}/Contents/Resources/Translations)
-    install(FILES ${client_I18N} DESTINATION ${QM_DIR})
-    get_target_property(_qmake Qt::qmake LOCATION)
-    execute_process(COMMAND ${_qmake} -query QT_INSTALL_TRANSLATIONS
-        OUTPUT_VARIABLE QT_TRANSLATIONS_DIR
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    file(GLOB qt_I18N ${QT_TRANSLATIONS_DIR}/qt_??.qm ${QT_TRANSLATIONS_DIR}/qt_??_??.qm)
-    install(FILES ${qt_I18N} DESTINATION ${QM_DIR})
-    file(GLOB qtbase_I18N ${QT_TRANSLATIONS_DIR}/qtbase_??.qm ${QT_TRANSLATIONS_DIR}/qt_??_??.qm)
-    install(FILES ${qtbase_I18N} DESTINATION ${QM_DIR})
-    file(GLOB qtkeychain_I18N ${QT_TRANSLATIONS_DIR}/qtkeychain*.qm)
-    install(FILES ${qtkeychain_I18N} DESTINATION ${QM_DIR})
+    set_source_files_properties(${client_I18N} PROPERTIES MACOSX_PACKAGE_LOCATION Resources/Translations)
+    set_source_files_properties(${NEXTCLOUD_BUNDLED_RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    set_target_properties(${APPLICATION_EXECUTABLE} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist)
+    set_target_properties(nextcloud PROPERTIES OUTPUT_NAME "${APPLICATION_NAME}")
+    set_target_properties(nextcloud PROPERTIES OUTPUT_NAME "${APPLICATION_EXECUTABLE}")
 endif()
 
 IF(BUILD_UPDATER)
