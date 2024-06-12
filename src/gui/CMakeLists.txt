@@ -641,6 +641,11 @@ else()
         install(DIRECTORY "${SPARKLE_LIBRARY}"
                 DESTINATION "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/../Frameworks" USE_SOURCE_PERMISSIONS)
     endif()
+
+    add_custom_command(TARGET nextcloud POST_BUILD
+            COMMAND "${MACDEPLOYQT_EXECUTABLE}"
+            ARGS "${BIN_OUTPUT_DIRECTORY}/${APPLICATION_NAME}.app" "-dmg"
+            COMMENT "Execute macdeployqt to create macOS bundle")
 endif()
 
 IF(BUILD_UPDATER)
