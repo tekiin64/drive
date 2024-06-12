@@ -133,15 +133,6 @@ message(STATUS "GIT_SHA1 ${GIT_SHA1}")
 set(SYSCONFDIR ${SYSCONF_INSTALL_DIR})
 set(SHAREDIR ${CMAKE_INSTALL_FULL_DATADIR})
 
-# Build MacOS app bundle if wished
-if(APPLE AND BUILD_OWNCLOUD_OSX_BUNDLE)
-    message(STATUS "Build MacOS app bundle")
-    set(OWNCLOUD_OSX_BUNDLE "${APPLICATION_NAME}.app")
-    set(LIB_INSTALL_DIR "${APPLICATION_NAME}.app/Contents/MacOS")
-    set(BIN_INSTALL_DIR "${APPLICATION_NAME}.app/Contents/MacOS")
-    add_definitions(-DBUILD_OWNCLOUD_OSX_BUNDLE)
-endif()
-
 find_package(Qt${QT_MAJOR_VERSION} COMPONENTS Core)
 option(QUICK_COMPILER "Use QtQuick compiler to improve performance" OFF)
 
@@ -279,8 +270,15 @@ if (APPLE)
 endif()
 
 # Handle Translations, pick all client_* files from trans directory.
-file( GLOB TRANS_FILES ${CMAKE_SOURCE_DIR}/translations/client_*.ts)
+file(GLOB TRANS_FILES ${CMAKE_SOURCE_DIR}/translations/client_*.ts)
 set(TRANSLATIONS ${TRANS_FILES})
+
+if(APPLE)
+    list(APPEND NEXTCLOUD_BUNDLED_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/sync-exclude.lst)
+elseif(BUILD_CLIENT)
+    install( FILES sync-exclude.lst DESTINATION ${SYSCONFDIR}/${APPLICATION_SHORTNAME} )
+    configure_file(sync-exclude.lst bin/sync-exclude.lst COPYONLY)
+endif()
 
 if(BUILD_CLIENT)
     add_subdirectory(src)
@@ -306,13 +304,5 @@ endif()
 
 configure_file(config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
-
-if(BUILD_OWNCLOUD_OSX_BUNDLE)
-    install(FILES sync-exclude.lst DESTINATION ${OWNCLOUD_OSX_BUNDLE}/Contents/Resources/)
-    configure_file(sync-exclude.lst bin/${OWNCLOUD_OSX_BUNDLE}/Contents/Resources/sync-exclude.lst COPYONLY)
-elseif(BUILD_CLIENT)
-    install( FILES sync-exclude.lst DESTINATION ${SYSCONFDIR}/${APPLICATION_SHORTNAME} )
-    configure_file(sync-exclude.lst bin/sync-exclude.lst COPYONLY)
-endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES INCLUDE_QUIET_PACKAGES)

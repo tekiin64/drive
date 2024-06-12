@@ -23,7 +23,7 @@ if(APPLE)
     set( CPACK_DMG_FORMAT "UDBZ" )
     set( CPACK_DMG_VOLUME_NAME "${APPLICATION_SHORTNAME}")
 
-    # did not work with cmake 2.8.7, so we override MacOSXBundleInfo.plist.in
+    # did not work with cmake 2.8.7, so we override MacOSXBundleInfo.plist
     #set( CPACK_BUNDLE_PLIST ${CMAKE_SOURCE_DIR}/admin/osx/Info.plist )
 
     # do we need these?
