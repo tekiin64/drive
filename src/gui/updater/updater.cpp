@@ -145,7 +145,7 @@ Updater *Updater::create()
         return nullptr;
     }
 
-#if defined(Q_OS_MACOS) && defined(HAVE_SPARKLE) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
+#if defined(Q_OS_MACOS) && defined(HAVE_SPARKLE)
     if (SparkleUpdater::autoUpdaterAllowed()) {
         return new SparkleUpdater(url);
     }
