@@ -53,26 +53,22 @@ if(APPLE)
         add_dependencies(mac_overlayplugin nextcloud) # for the ownCloud.icns to be generated
     endif()
 
-    if (BUILD_OWNCLOUD_OSX_BUNDLE)
-        set(OSX_PLUGINS_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/${XCODE_TARGET_CONFIGURATION})
-        set(OSX_PLUGINS_INSTALL_DIR ${OWNCLOUD_OSX_BUNDLE}/Contents/PlugIns)
+    set(OSX_PLUGINS_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/${XCODE_TARGET_CONFIGURATION})
 
-        install(DIRECTORY ${OSX_PLUGINS_BINARY_DIR}/FinderSyncExt.appex
-            DESTINATION ${OSX_PLUGINS_INSTALL_DIR}
-            USE_SOURCE_PERMISSIONS)
+    add_custom_command(TARGET mac_overlayplugin
+        POST_BUILD COMMAND ${CMAKE_COMMAND}
+        ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FinderSyncExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/PlugIns/FinderSyncExt.appex"
+        MAIN_DEPENDENCY "${mac_overlayplugin}")
 
-        # HACK: Launch Services expects there to be a Library folder within the FinderSyncExt.appex.
-        install(DIRECTORY DESTINATION ${OSX_PLUGINS_INSTALL_DIR}/FinderSyncExt.appex/Contents/Library)
-
-        if (BUILD_FILE_PROVIDER_MODULE)
-            install(DIRECTORY ${OSX_PLUGINS_BINARY_DIR}/FileProviderExt.appex
-                DESTINATION ${OSX_PLUGINS_INSTALL_DIR}
-                USE_SOURCE_PERMISSIONS)
-
-            install(DIRECTORY ${OSX_PLUGINS_BINARY_DIR}/FileProviderUIExt.appex
-                    DESTINATION ${OSX_PLUGINS_INSTALL_DIR}
-                    USE_SOURCE_PERMISSIONS)
-        endif()
+    if (BUILD_FILE_PROVIDER_MODULE)
+        add_custom_command(TARGET mac_overlayplugin
+            POST_BUILD COMMAND ${CMAKE_COMMAND}
+            ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FileProviderExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/PlugIns/FileProviderExt.appex"
+            MAIN_DEPENDENCY "${mac_fileproviderplugin}")
+        add_custom_command(TARGET mac_overlayplugin
+            POST_BUILD COMMAND ${CMAKE_COMMAND}
+            ARGS -E copy_directory "${OSX_PLUGINS_BINARY_DIR}/FileProviderUIExt.appex" "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/PlugIns/FileProviderUIExt.appex"
+            MAIN_DEPENDENCY "${mac_fileproviderplugin}")
     endif()
 endif()
 
