@@ -112,6 +112,12 @@ class TestSyncCfApi : public QObject
     Q_OBJECT
 
 private slots:
+    void initTestCase()
+    {
+        Logger::instance()->setLogFlush(true);
+        Logger::instance()->setLogDebug(true);
+    }
+
     void testVirtualFileLifecycle_data()
     {
         QTest::addColumn<bool>("doLocalDiscovery");
@@ -1383,6 +1389,108 @@ private slots:
         ItemCompletedSpy completeSpy(fakeFolder);
         QVERIFY(fakeFolder.syncOnce());
         QVERIFY(itemInstruction(completeSpy, "A", CSYNC_INSTRUCTION_NONE));
+    }
+
+    void testRemoteTypeChangeExistingLocalMustGetRemoved()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+        setupVfs(fakeFolder);
+
+        // test file change to directory on remote
+        fakeFolder.remoteModifier().mkdir("a");
+        fakeFolder.remoteModifier().insert("a/TESTFILE");
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().remove("a/TESTFILE");
+        fakeFolder.remoteModifier().mkdir("a/TESTFILE");
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+
+        // test directory change to file on remote
+        fakeFolder.remoteModifier().mkdir("a/TESTDIR");
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().remove("a/TESTDIR");
+        fakeFolder.remoteModifier().insert("a/TESTDIR");
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testRecursiveRename()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+        setupVfs(fakeFolder);
+
+        // test file change to directory on remote
+        fakeFolder.remoteModifier().mkdir("folder1");
+        fakeFolder.remoteModifier().mkdir("folder1/folder1.1");
+        fakeFolder.remoteModifier().insert("folder1/folder1.1/TESTFILE1.1.1");
+        fakeFolder.remoteModifier().mkdir("folder1/folder1.2");
+        fakeFolder.remoteModifier().mkdir("folder1/folder1.2/folder1.2.1");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.1/TESTFILE1.2.1.1");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.1/TESTFILE1.2.1.2");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.1/TESTFILE1.2.1.3");
+        fakeFolder.remoteModifier().mkdir("folder1/folder1.2/folder1.2.2");
+        fakeFolder.remoteModifier().mkdir("folder1/folder1.2/folder1.2.2/test");
+        fakeFolder.remoteModifier().mkdir("folder1/folder1.2/folder1.2.2/test/folder1.2.2.1");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.1");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.2");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.3");
+        fakeFolder.remoteModifier().mkdir("folder1/folder1.2/folder1.2.2/folder1.2.2.2");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.2/folder1.2.2.2/TESTFILE1.2.2.2.1");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.2/folder1.2.2.2/TESTFILE1.2.2.2.2");
+        fakeFolder.remoteModifier().insert("folder1/folder1.2/folder1.2.2/folder1.2.2.2/TESTFILE1.2.2.2.3");
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::DatabaseAndFilesystem);
+        QVERIFY(fakeFolder.syncOnce());
+        CFVERIFY_VIRTUAL(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.1");
+        CFVERIFY_VIRTUAL(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.2");
+        CFVERIFY_VIRTUAL(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.3");
+
+        triggerDownload(fakeFolder, "folder1/folder1.1/TESTFILE1.1.1");
+        triggerDownload(fakeFolder, "folder1/folder1.2/folder1.2.1/TESTFILE1.2.1.1");
+        triggerDownload(fakeFolder, "folder1/folder1.2/folder1.2.1/TESTFILE1.2.1.2");
+        triggerDownload(fakeFolder, "folder1/folder1.2/folder1.2.2/folder1.2.2.2/TESTFILE1.2.2.2.1");
+        triggerDownload(fakeFolder, "folder1/folder1.2/folder1.2.2/folder1.2.2.2/TESTFILE1.2.2.2.3");
+        triggerDownload(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.1");
+        triggerDownload(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.2");
+        triggerDownload(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.3");
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::DatabaseAndFilesystem);
+        QVERIFY(fakeFolder.syncOnce());
+        CFVERIFY_NONVIRTUAL(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.1");
+        CFVERIFY_NONVIRTUAL(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.2");
+        CFVERIFY_NONVIRTUAL(fakeFolder, "folder1/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.3");
+
+        QFile testAccessDeniedFile;
+
+        connect(&fakeFolder.syncEngine(), &OCC::SyncEngine::itemCompleted, [&testAccessDeniedFile, &fakeFolder] (const OCC::SyncFileItemPtr &item, const OCC::ErrorCategory category) {
+            if (item->_file == "folder1") {
+                testAccessDeniedFile.setFileName(fakeFolder.localPath() + "new name folder/folder1.2/folder1.2.2/test/folder1.2.2.1/TESTFILE1.2.2.1.3");
+                QVERIFY(testAccessDeniedFile.open(QFile::ReadWrite));
+            }
+            qInfo() << "completed:" << item->_file;
+        });
+
+        fakeFolder.remoteModifier().rename("folder1/folder1.2/folder1.2.2/folder1.2.2.2", "folder1/folder1.2/folder1.2.2/a folder1.2.2.2");
+        fakeFolder.remoteModifier().rename("folder1/folder1.2/folder1.2.2/test/folder1.2.2.1", "folder1/folder1.2/folder1.2.2/folder1.2.2.1");
+        fakeFolder.remoteModifier().rename("folder1/folder1.2/folder1.2.2/folder1.2.2.1", "folder1/folder1.2/folder1.2.2/new name folder1.2.2.1");
+        fakeFolder.remoteModifier().remove("folder1/folder1.2/folder1.2.2/test");
+        fakeFolder.remoteModifier().rename("folder1/folder1.2/folder1.2.2", "folder1/folder1.2/new name folder1.2.2");
+        fakeFolder.remoteModifier().rename("folder1/folder1.2", "folder1/new name folder1.2");
+        fakeFolder.remoteModifier().rename("folder1", "new name folder");
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::DatabaseAndFilesystem);
+        QVERIFY(!fakeFolder.syncOnce());
+
+        testAccessDeniedFile.close();
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::DatabaseAndFilesystem);
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::DatabaseAndFilesystem);
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::DatabaseAndFilesystem);
+        QVERIFY(fakeFolder.syncOnce());
     }
 };
 
