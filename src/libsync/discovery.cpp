@@ -1700,13 +1700,13 @@ void ProcessDirectoryJob::processFileFinalize(
     }
 
     {
-        const auto discoveredItemLog = QStringLiteral("%1 %2 %3 %4").arg(item->_file).arg(item->_instruction).arg(item->_direction).arg(item->_type);
+
         const auto isImportantInstruction = item->_instruction != CSYNC_INSTRUCTION_NONE && item->_instruction != CSYNC_INSTRUCTION_IGNORE
             && item->_instruction != CSYNC_INSTRUCTION_UPDATE_METADATA;
         if (isImportantInstruction) {
-            qCInfo(lcDisco) << discoveredItemLog;
+            qCInfo(lcDisco) << "Discovered" << item->_file << item->_instruction << item->_direction << item->_type;
         } else {
-            qCDebug(lcDisco) << discoveredItemLog;
+            qCDebug(lcDisco) << "Discovered" << item->_file << item->_instruction << item->_direction << item->_type;
         }
     }
 
