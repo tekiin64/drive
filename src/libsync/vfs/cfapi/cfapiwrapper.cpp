@@ -133,9 +133,9 @@ void cfApiSendTransferInfo(const CF_CONNECTION_KEY &connectionKey, const CF_TRAN
 void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const CF_CALLBACK_PARAMETERS *callbackParameters)
 {
     qDebug(lcCfApiWrapper) << "Fetch data callback called. File size:" << callbackInfo->FileSize.QuadPart;
-    qDebug(lcCfApiWrapper) << "Desktop client proccess id:" << QCoreApplication::applicationPid();
-    qDebug(lcCfApiWrapper) << "Fetch data requested by proccess id:" << callbackInfo->ProcessInfo->ProcessId;
-    qDebug(lcCfApiWrapper) << "Fetch data requested by application id:" << QString(QString::fromWCharArray(callbackInfo->ProcessInfo->ApplicationId));
+    qCInfo(lcCfApiWrapper) << "Desktop client proccess id:" << QCoreApplication::applicationPid();
+    qCInfo(lcCfApiWrapper) << "Fetch data requested by proccess id:" << callbackInfo->ProcessInfo->ProcessId;
+    qCInfo(lcCfApiWrapper) << "Fetch data requested by application id:" << QString(QString::fromWCharArray(callbackInfo->ProcessInfo->ApplicationId));
 
     const auto sendTransferError = [=] {
         cfApiSendTransferInfo(callbackInfo->ConnectionKey,
@@ -168,7 +168,7 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
     const auto path = QString(QString::fromWCharArray(callbackInfo->VolumeDosName) + QString::fromWCharArray(callbackInfo->NormalizedPath));
     const auto requestId = QString::number(callbackInfo->TransferKey.QuadPart, 16);
 
-    qCDebug(lcCfApiWrapper) << "Request hydration for" << path << requestId;
+    qCInfo(lcCfApiWrapper) << "Request hydration for" << path << requestId;
 
     const auto invokeResult = QMetaObject::invokeMethod(vfs, [=] { vfs->requestHydration(requestId, path); }, Qt::QueuedConnection);
     if (!invokeResult) {
@@ -177,7 +177,7 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
         return;
     }
 
-    qCDebug(lcCfApiWrapper) << "Successfully triggered hydration for" << path << requestId;
+    qCInfo(lcCfApiWrapper) << "Successfully triggered hydration for" << path << requestId;
 
     // Block and wait for vfs to signal back the hydration is ready
     bool hydrationRequestResult = false;
@@ -185,14 +185,14 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
     QObject::connect(vfs, &OCC::VfsCfApi::hydrationRequestReady, &loop, [&](const QString &id) {
         if (requestId == id) {
             hydrationRequestResult = true;
-            qCDebug(lcCfApiWrapper) << "Hydration request ready for" << path << requestId;
+            qCInfo(lcCfApiWrapper) << "Hydration request ready for" << path << requestId;
             loop.quit();
         }
     });
     QObject::connect(vfs, &OCC::VfsCfApi::hydrationRequestFailed, &loop, [&](const QString &id) {
         if (requestId == id) {
             hydrationRequestResult = false;
-            qCDebug(lcCfApiWrapper) << "Hydration request failed for" << path << requestId;
+            qCInfo(lcCfApiWrapper) << "Hydration request failed for" << path << requestId;
             loop.quit();
         }
     });
