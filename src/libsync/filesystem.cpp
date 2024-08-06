@@ -319,11 +319,35 @@ bool FileSystem::setFolderPermissions(const QString &path,
                                       FileSystem::FolderPermissions permissions) noexcept
 {
     static constexpr auto writePerms = std::filesystem::perms::owner_write | std::filesystem::perms::group_write | std::filesystem::perms::others_write;
+
     const auto stdStrPath = path.toStdWString();
+    auto currentperms = std::filesystem::status(stdStrPath).permissions();
+    const auto demp = [=](std::filesystem::perms p){
+        QString permstring;
+        auto show = [&permstring, &p](QString op, std::filesystem::perms perm)
+        {
+            permstring.append(std::filesystem::perms::none == (perm & p) ? "-" : op);
+        };
+        show("r", std::filesystem::perms::owner_read);
+        show("w", std::filesystem::perms::owner_write);
+        show("x", std::filesystem::perms::owner_exec);
+        show("r", std::filesystem::perms::group_read);
+        show("w", std::filesystem::perms::group_write);
+        show("x", std::filesystem::perms::group_exec);
+        show("r", std::filesystem::perms::others_read);
+        show("w", std::filesystem::perms::others_write);
+        show("x", std::filesystem::perms::others_exec);
+
+        qCWarning(lcFileSystem()) << "path:" << stdStrPath << " - perms:" << permstring;
+    };
+    demp(currentperms);
     try {
         switch (permissions) {
         case OCC::FileSystem::FolderPermissions::ReadOnly:
+            qCWarning(lcFileSystem()) << "removing write perms to" << stdStrPath;
             std::filesystem::permissions(stdStrPath, writePerms, std::filesystem::perm_options::remove);
+            currentperms = std::filesystem::status(stdStrPath).permissions();
+            demp(currentperms);
             break;
         case OCC::FileSystem::FolderPermissions::ReadWrite:
             break;
@@ -456,7 +480,10 @@ bool FileSystem::setFolderPermissions(const QString &path,
         case OCC::FileSystem::FolderPermissions::ReadOnly:
             break;
         case OCC::FileSystem::FolderPermissions::ReadWrite:
-            std::filesystem::permissions(stdStrPath, writePerms, std::filesystem::perm_options::add);
+            qCWarning(lcFileSystem()) << "adding write perms to" << stdStrPath;
+            std::filesystem::permissions(stdStrPath, writePerms, std::filesystem::perm_options::add);    
+            currentperms = std::filesystem::status(stdStrPath).permissions();
+            demp(currentperms);
             break;
         }
     } catch (const std::filesystem::filesystem_error &e) {

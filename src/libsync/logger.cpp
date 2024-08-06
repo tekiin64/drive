@@ -142,6 +142,10 @@ void Logger::doLog(QtMsgType type, const QMessageLogContext &ctx, const QString 
         OutputDebugString(msgW.c_str());
     }
 #endif
+#if defined NEXTCLOUD_DEV || defined QT_DEBUG
+    QTextStream cout(stdout, QIODevice::WriteOnly);
+    cout << msg << Qt::endl;
+#endif
     {
         QMutexLocker lock(&_mutex);
 
