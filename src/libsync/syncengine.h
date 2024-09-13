@@ -358,6 +358,8 @@ private:
 
     void finishSync();
 
+    bool handleMassDeletion();
+
     template <typename T>
     void promptUserBeforePropagation(T &&lambda);
 
