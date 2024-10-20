@@ -1326,6 +1326,11 @@ bool ShareModel::isShareDisabledEncryptedFolder() const
     return _isShareDisabledEncryptedFolder;
 }
 
+bool ShareModel::displayFileOwner() const
+{
+    return _displayFileOwner;
+}
+
 QVariantList ShareModel::sharees() const
 {
     QVariantList returnSharees;
