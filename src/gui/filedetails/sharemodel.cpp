@@ -490,11 +490,16 @@ void ShareModel::slotSharesFetched(const QList<SharePtr> &shares)
     for (const auto &share : shares) {
         if (share.isNull()) {
             continue;
-        } else if (const auto selfUserId = _accountState->account()->davUser(); share->getUidOwner() != selfUserId) {
+        } else if (const auto selfUserId = share->account()->davUser(); share->getUidOwner() != selfUserId) {
             _displayShareOwner = true;
             Q_EMIT displayShareOwnerChanged();
             _shareOwnerDisplayName = share->getOwnerDisplayName();
             Q_EMIT shareOwnerDisplayNameChanged();
+            _shareOwnerAvatar = "image://avatars/user-id="
+                + share->getUidOwner()
+                + "/local-account:"
+                + share->account()->displayName();
+            Q_EMIT shareOwnerAvatarChanged();
 
             if (share->getShareType() == Share::TypeUser &&
                 share->getShareWith() &&
@@ -512,10 +517,9 @@ void ShareModel::slotSharesFetched(const QList<SharePtr> &shares)
                         : tr("Today");
                 Q_EMIT sharedWithMeRemainingTimeStringChanged();
             }
-            continue;
+        } else {
+            slotAddShare(share);
         }
-
-        slotAddShare(share);
     }
 
     handleLinkShare();
