@@ -221,6 +221,7 @@ void ShareModel::resetData()
     _sharees.clear();
     _displayShareOwner = false;
     _shareOwnerDisplayName.clear();
+    _shareOwnerAvatar.clear();
     _sharedWithMeExpires = false;
     _sharedWithMeRemainingTimeString.clear();
 
@@ -230,6 +231,7 @@ void ShareModel::resetData()
     Q_EMIT shareesChanged();
     Q_EMIT displayShareOwnerChanged();
     Q_EMIT shareOwnerDisplayNameChanged();
+    Q_EMIT shareOwnerAvatarChanged();
     Q_EMIT sharedWithMeExpiresChanged();
     Q_EMIT sharedWithMeRemainingTimeStringChanged();
 
@@ -1364,6 +1366,11 @@ bool ShareModel::displayShareOwner() const
 QString ShareModel::shareOwnerDisplayName() const
 {
     return _shareOwnerDisplayName;
+}
+
+QString ShareModel::shareOwnerAvatar() const
+{
+    return _shareOwnerAvatar;
 }
 
 QString ShareModel::sharedWithMeRemainingTimeString() const
