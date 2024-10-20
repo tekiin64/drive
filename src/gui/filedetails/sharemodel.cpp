@@ -219,8 +219,8 @@ void ShareModel::resetData()
     _fetchOngoing = false;
     _hasInitialShareFetchCompleted = false;
     _sharees.clear();
-    _displayFileOwner = false;
-    _fileOwnerDisplayName.clear();
+    _displayShareOwner = false;
+    _shareOwnerDisplayName.clear();
     _sharedWithMeExpires = false;
     _sharedWithMeRemainingTimeString.clear();
 
@@ -228,8 +228,8 @@ void ShareModel::resetData()
     Q_EMIT fetchOngoingChanged();
     Q_EMIT hasInitialShareFetchCompletedChanged();
     Q_EMIT shareesChanged();
-    Q_EMIT displayFileOwnerChanged();
-    Q_EMIT fileOwnerDisplayNameChanged();
+    Q_EMIT displayShareOwnerChanged();
+    Q_EMIT shareOwnerDisplayNameChanged();
     Q_EMIT sharedWithMeExpiresChanged();
     Q_EMIT sharedWithMeRemainingTimeStringChanged();
 
@@ -464,12 +464,7 @@ void ShareModel::slotPropfindReceived(const QVariantMap &result)
 
     const auto privateLinkUrl = result["privatelink"].toString();
     _fileRemoteId = result["fileid"].toByteArray();
-    
-    _displayFileOwner = result["owner-id"].toString() != _accountState->account()->davUser();
-    Q_EMIT displayFileOwnerChanged();
-    _fileOwnerDisplayName = result["owner-display-name"].toString();
-    Q_EMIT fileOwnerDisplayNameChanged();
-
+     
     if (!privateLinkUrl.isEmpty()) {
         qCInfo(lcShareModel) << "Received private link url for" << _sharePath << privateLinkUrl;
         _privateLinkUrl = privateLinkUrl;
@@ -494,6 +489,11 @@ void ShareModel::slotSharesFetched(const QList<SharePtr> &shares)
         if (share.isNull()) {
             continue;
         } else if (const auto selfUserId = _accountState->account()->davUser(); share->getUidOwner() != selfUserId) {
+            _displayShareOwner = true;
+            Q_EMIT displayShareOwnerChanged();
+            _shareOwnerDisplayName = share->getOwnerDisplayName();
+            Q_EMIT shareOwnerDisplayNameChanged();
+
             if (share->getShareType() == Share::TypeUser &&
                 share->getShareWith() &&
                 share->getShareWith()->shareWith() == selfUserId)
@@ -1356,14 +1356,14 @@ bool ShareModel::isShareDisabledEncryptedFolder() const
     return _isShareDisabledEncryptedFolder;
 }
 
-bool ShareModel::displayFileOwner() const
+bool ShareModel::displayShareOwner() const
 {
-    return _displayFileOwner;
+    return _displayShareOwner;
 }
 
-QString ShareModel::fileOwnerDisplayName() const
+QString ShareModel::shareOwnerDisplayName() const
 {
-    return _fileOwnerDisplayName;
+    return _shareOwnerDisplayName;
 }
 
 QString ShareModel::sharedWithMeRemainingTimeString() const
