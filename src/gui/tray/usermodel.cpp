@@ -1677,7 +1677,7 @@ private:
 
 QQuickImageResponse *ImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
 {
-    const auto response = new class ImageResponse(id, requestedSize, &pool);
+    const auto response = new class ImageResponse(id, requestedSize, &_pool);
     return response;
 }
 
@@ -1757,6 +1757,4 @@ QHash<int, QByteArray> UserAppsModel::roleNames() const
     return roles;
 }
 }
-
-#include "usermodel.moc"
 
