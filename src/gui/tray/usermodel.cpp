@@ -1649,7 +1649,8 @@ public:
                 qCWarning(lcActivity) << "Account not found:" << accountString;
                 return;
             }
-            const auto avatarJob = new AvatarJob(accountState->account(), avatarUserId, requestedSize.width());
+            const auto avatarSize = requestedSize.width() > 0 ? requestedSize.width() : 64;
+            const auto avatarJob = new AvatarJob(accountState->account(), avatarUserId, avatarSize);
             connect(avatarJob, &AvatarJob::avatarPixmap, this, [&](const QImage &avatarImg) {
                 handleDone(AvatarJob::makeCircularAvatar(avatarImg));
             });
