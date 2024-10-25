@@ -334,7 +334,7 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="384"/>
         <source>Could not make directories in trash</source>
-        <translation type="unfinished"/>
+        <translation>Неможе да се крира папка во корпата со отпадоци</translation>
     </message>
     <message>
         <location filename="../src/common/filesystembase.cpp" line="398"/>
@@ -345,7 +345,7 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="438"/>
         <source>Moving to the trash is not implemented on this platform</source>
-        <translation type="unfinished"/>
+        <translation>Не е овозможено преместување во корпата со отпадоци</translation>
     </message>
 </context>
 <context>
@@ -944,7 +944,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1250"/>
         <source>Obtaining authorization from the browser. &lt;a href=&apos;%1&apos;&gt;Click here&lt;/a&gt; to re-open the browser.</source>
-        <translation type="unfinished"/>
+        <translation>Добивање на авторизација од прелистувач. &lt;a href=&apos;%1&apos;&gt;Кликни тука&lt;/a&gt; за да го отворите повторно прелистувачот.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1254"/>
@@ -954,7 +954,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1259"/>
         <source>No connection to %1 at %2.</source>
-        <translation type="unfinished"/>
+        <translation>Нема врска со  %1 на %2.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1310"/>
@@ -2220,7 +2220,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/folder.cpp" line="1420"/>
         <source>Remove All Files?</source>
-        <translation type="unfinished"/>
+        <translation>Дали сакате да ги избришете сите датотеки?</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1423"/>
@@ -2230,12 +2230,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/folder.cpp" line="1424"/>
         <source>Remove all files</source>
-        <translation type="unfinished"/>
+        <translation>Отстрани ги сите датотеки</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1425"/>
         <source>Keep files</source>
-        <translation type="unfinished"/>
+        <translation>Задржи ги датотеките</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1434"/>
@@ -2536,12 +2536,12 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="309"/>
         <source>Synchronizing VirtualFiles with local folder</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизација на виртуелни датотеки со локална папка</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="311"/>
         <source>Synchronizing with local folder</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизација со локална папка</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="322"/>
@@ -2566,7 +2566,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1004"/>
         <source>Reconciling changes</source>
-        <translation type="unfinished"/>
+        <translation>Усогласување на промените</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1009"/>
@@ -2588,7 +2588,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1191"/>
         <source>Waiting …</source>
-        <translation type="unfinished"/>
+        <translation>Почекајте...</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1065"/>
@@ -2611,7 +2611,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/folderstatusmodel.cpp" line="1072"/>
         <source>download %1/s</source>
         <extracomment>Example text: &quot;download 24Kb/s&quot; (%1 is replaced by 24Kb (translated))</extracomment>
-        <translation type="unfinished"/>
+        <translation>преземање %1/s</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1075"/>
@@ -2628,7 +2628,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/folderstatusmodel.cpp" line="1082"/>
         <source>upload %1/s</source>
         <extracomment>Example text: &quot;upload 24Kb/s&quot; (%1 is replaced by 24Kb (translated))</extracomment>
-        <translation type="unfinished"/>
+        <translation>прикачување %1/s</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1090"/>
@@ -2667,7 +2667,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1136"/>
         <source>file %1 of %2</source>
-        <translation type="unfinished"/>
+        <translation>датотека %1 од %2</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1184"/>
@@ -2862,7 +2862,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/generalsettings.ui" line="20"/>
         <location filename="../src/gui/generalsettings.ui" line="32"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>За</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="33"/>
@@ -2883,17 +2883,17 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="75"/>
         <source>Use &amp;Monochrome Icons</source>
-        <translation type="unfinished"/>
+        <translation>Користи &amp;монохроматски икони</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="82"/>
         <source>&amp;Launch on System Startup</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Стартувај при стартување на системот</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="89"/>
         <source>Show Server &amp;Notifications</source>
-        <translation type="unfinished"/>
+        <translation>Прикажи &amp;известувања од серверот.</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="96"/>
@@ -2908,12 +2908,12 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="106"/>
         <source>Updates</source>
-        <translation type="unfinished"/>
+        <translation>Ажурирања</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="114"/>
         <source>&amp;Automatically check for Updates</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Автоматски проверувај за ажурирања</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="123"/>
@@ -2959,7 +2959,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="198"/>
         <source>&amp;Check for Update now</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Провери за ажурирање сега</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="218"/>
@@ -2969,7 +2969,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="229"/>
         <source>Ask for confirmation before synchronizing folders larger than</source>
-        <translation type="unfinished"/>
+        <translation>Побарај потврда за синхронизација на папки поголеми од</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="230"/>
@@ -3019,7 +3019,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="284"/>
         <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
-        <translation type="unfinished"/>
+        <translation>Покажи ги папките што се синхронизираат во навигационата лента на &amp;прелистувачот</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="398"/>
@@ -3071,14 +3071,15 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="350"/>
         <source>Change update channel?</source>
-        <translation type="unfinished"/>
+        <translation>Промена на каналот за ажурирање?</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="351"/>
         <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
 
 Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
-        <translation type="unfinished"/>
+        <translation>Каналот за ажурирање одредува кои ажурирања на клиентите ќе бидат понудени за инсталација. &quot;Стабилнen&quot; канал содржи само надградби што се сметаат за сигурни, додека верзиите во &quot;бета&quot; каналот може да содржат понови карактеристики и поправени грешки, но сè уште не се темелно тестирани.
+Имајте во предвид дека ова само избира врзии што ќе се преземат од базенот и дека нема враќање назад: Значи, враќањето од бета-каналот до стабилниот канал обично не може да се направи веднаш и треба да се чека стабилна верзија која е понова од тековно инсталираната бета-верзија.</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="365"/>
@@ -3563,7 +3564,7 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/networksettings.ui" line="36"/>
         <source>No Proxy</source>
-        <translation type="unfinished"/>
+        <translation>Нема Proxy</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.ui" line="49"/>
@@ -3693,7 +3694,7 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="152"/>
         <source>Downloading %1. Please wait …</source>
-        <translation type="unfinished"/>
+        <translation>Преземање %1. Ве милиме почекајте …</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="154"/>
@@ -4137,12 +4138,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/discovery.cpp" line="353"/>
         <source>File name contains at least one invalid character</source>
-        <translation type="unfinished"/>
+        <translation>Името на датотеката соджи невалиден карактер</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="355"/>
         <source>The file name is a reserved name on this file system.</source>
-        <translation type="unfinished"/>
+        <translation>Ова име на датотека е резервирано име на системот.</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="394"/>
@@ -4834,7 +4835,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/tray/notificationhandler.cpp" line="154"/>
         <source>Dismiss</source>
-        <translation type="unfinished"/>
+        <translation>Отфрли</translation>
     </message>
 </context>
 <context>
@@ -5073,7 +5074,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1369"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Уреди</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1371"/>
@@ -5523,7 +5524,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/systray.cpp" line="554"/>
         <source>%1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1: %2</translation>
     </message>
 </context>
 <context>
@@ -5532,7 +5533,7 @@ Server replied with error: %2</source>
         <location filename="../src/libsync/theme.cpp" line="554"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;%1 Клиент за компјутер&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="578"/>
@@ -5952,7 +5953,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="308"/>
         <source>Disconnected</source>
-        <translation type="unfinished"/>
+        <translation>Исклучен</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="310"/>
@@ -5982,7 +5983,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="338"/>
         <source>Signed out</source>
-        <translation type="unfinished"/>
+        <translation>Одјавен</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="342"/>
@@ -5993,32 +5994,32 @@ Server replied with error: %2</source>
         <location filename="../src/gui/owncloudgui.cpp" line="343"/>
         <location filename="../src/gui/owncloudgui.cpp" line="396"/>
         <source>Synchronization is paused</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизацијата е паузирана</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="383"/>
         <source>Folder %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Папка %1: %2</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="391"/>
         <source>Unresolved conflicts</source>
-        <translation type="unfinished"/>
+        <translation>Неразрешени конфликти</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="393"/>
         <source>Up to date</source>
-        <translation type="unfinished"/>
+        <translation>Ажурирано</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="398"/>
         <source>Error during synchronization</source>
-        <translation type="unfinished"/>
+        <translation>Грешка при синхронизација</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="402"/>
         <source>No sync folders configured</source>
-        <translation type="unfinished"/>
+        <translation>Нема папки за синхронизација.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="452"/>
@@ -6059,22 +6060,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="486"/>
         <source>Syncing %1 of %2 (%3 left)</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизација на %1 од %2 (преостануваат %3)</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="491"/>
         <source>Syncing %1 of %2</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизација на %1 од %2</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="500"/>
         <source>Syncing %1 (%2 left)</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизација на %1 (преостануваат %2)</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="503"/>
         <source>Syncing %1</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизација на %1</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="513"/>
@@ -6904,7 +6905,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="77"/>
         <source>uploading</source>
-        <translation type="unfinished"/>
+        <translation>прикачување</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="79"/>
@@ -6924,7 +6925,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="82"/>
         <source>moving</source>
-        <translation type="unfinished"/>
+        <translation>поместување</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="84"/>
@@ -6934,7 +6935,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="84"/>
         <source>ignoring</source>
-        <translation type="unfinished"/>
+        <translation>игнорирање</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="86"/>
@@ -6944,12 +6945,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="87"/>
         <source>error</source>
-        <translation type="unfinished"/>
+        <translation>грешка</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="89"/>
         <source>updating local metadata</source>
-        <translation type="unfinished"/>
+        <translation>ажурирање на локалната метадата</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="91"/>
@@ -6967,12 +6968,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="84"/>
         <source>Status undefined</source>
-        <translation type="unfinished"/>
+        <translation>Не дефиниран статус</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="87"/>
         <source>Waiting to start sync</source>
-        <translation type="unfinished"/>
+        <translation>Чекање за почеток на синхронизација</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="89"/>
@@ -6992,7 +6993,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="93"/>
         <source>Sync Success</source>
-        <translation type="unfinished"/>
+        <translation>Синхронизацијата е успешна</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="96"/>
@@ -7037,7 +7038,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="108"/>
         <source>Aborting …</source>
-        <translation type="unfinished"/>
+        <translation>Откажување ...</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="113"/>
@@ -7108,12 +7109,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/abstractpropagateremotedeleteencrypted.cpp" line="139"/>
         <source>Wrong HTTP code returned by server. Expected 204, but received &quot;%1 %2&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Погрешен HTTP код е испратен од серверот. Се очекува 204, но примено е&quot;%1 %2&quot;.</translation>
     </message>
     <message>
         <location filename="../src/libsync/abstractpropagateremotedeleteencrypted.cpp" line="183"/>
         <source>&quot;%1 Failed to unlock encrypted folder %2&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1 Неуспешно отклучување на шифрираната папка %2&quot;.</translation>
     </message>
 </context>
 <context>
@@ -7121,7 +7122,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="115"/>
         <source>Error returned from the server: &lt;em&gt;%1&lt;/em&gt;</source>
-        <translation type="unfinished"/>
+        <translation>Грешка испратена од серверот: &lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="118"/>
@@ -7141,12 +7142,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="130"/>
         <source>The reply from the server did not contain all expected fields</source>
-        <translation type="unfinished"/>
+        <translation>Одговорот од серверот не ги содржи сите очекувани полиња</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="134"/>
         <source>&lt;h1&gt;Login Error&lt;/h1&gt;&lt;p&gt;%1&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;h1&gt;Грешка при најавување&lt;/h1&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="140"/>
@@ -7159,12 +7160,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.cpp" line="45"/>
         <source>Connect to %1</source>
-        <translation type="unfinished"/>
+        <translation>Поврзан со %1</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.cpp" line="46"/>
         <source>Login in your browser</source>
-        <translation type="unfinished"/>
+        <translation>Најавете се од вашиот прелистувач</translation>
     </message>
 </context>
 <context>
@@ -7172,7 +7173,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="80"/>
         <source>Username</source>
-        <translation type="unfinished"/>
+        <translation>Корисничко име</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="115"/>
@@ -7182,7 +7183,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="149"/>
         <source>Note:</source>
-        <translation type="unfinished"/>
+        <translation>Забелешка:</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="205"/>
@@ -7200,22 +7201,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="36"/>
         <source>Please switch to your browser to proceed.</source>
-        <translation type="unfinished"/>
+        <translation>Продолжете од вашиот прелистувач.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="46"/>
         <source>An error occurred while connecting. Please try again.</source>
-        <translation type="unfinished"/>
+        <translation>Настана грешка при обидот за поврзување. Обиди се повторно.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="56"/>
         <source>Re-open Browser</source>
-        <translation type="unfinished"/>
+        <translation>Повторно отвори го прелистувачот</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="69"/>
         <source>Copy link</source>
-        <translation type="unfinished"/>
+        <translation>Копирај линк</translation>
     </message>
 </context>
 <context>
@@ -7228,34 +7229,34 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="282"/>
         <source>Current account</source>
-        <translation type="unfinished"/>
+        <translation>Моментална сметка</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="288"/>
         <location filename="../src/gui/tray/Window.qml" line="420"/>
         <source>Resume sync for all</source>
-        <translation type="unfinished"/>
+        <translation>Продолжи ја синхронизацијата за сите</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="288"/>
         <location filename="../src/gui/tray/Window.qml" line="420"/>
         <source>Pause sync for all</source>
-        <translation type="unfinished"/>
+        <translation>Паузирај ја синхронизацијата за сите</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="380"/>
         <source>Add account</source>
-        <translation type="unfinished"/>
+        <translation>Додади сметка</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="392"/>
         <source>Add new account</source>
-        <translation type="unfinished"/>
+        <translation>Додади нова сметка</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="426"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>Параметри</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="448"/>
@@ -7285,17 +7286,17 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="641"/>
         <source>Open Nextcloud Talk in browser</source>
-        <translation type="unfinished"/>
+        <translation>Отвори разговор во прелистувач</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="661"/>
         <source>More apps</source>
-        <translation type="unfinished"/>
+        <translation>Повеќе апликации</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="715"/>
         <source>Open %1 in browser</source>
-        <translation type="unfinished"/>
+        <translation>Отвори %1 во прелистувач</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="821"/>
@@ -7308,7 +7309,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="533"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;&lt;small&gt;Изграден од Git ревизија &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; на %3, %4 со користење на Qt %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>

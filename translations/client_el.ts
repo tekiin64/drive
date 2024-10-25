@@ -334,7 +334,7 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="384"/>
         <source>Could not make directories in trash</source>
-        <translation type="unfinished"/>
+        <translation>Δεν δημιουργούνται κατάλογοι στον κάδο</translation>
     </message>
     <message>
         <location filename="../src/common/filesystembase.cpp" line="398"/>
@@ -345,7 +345,7 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="438"/>
         <source>Moving to the trash is not implemented on this platform</source>
-        <translation type="unfinished"/>
+        <translation>Η μετακίνηση στον κάδο δεν εφαρμόζεται σε αυτήν την πλατφόρμα</translation>
     </message>
 </context>
 <context>
@@ -945,7 +945,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1250"/>
         <source>Obtaining authorization from the browser. &lt;a href=&apos;%1&apos;&gt;Click here&lt;/a&gt; to re-open the browser.</source>
-        <translation type="unfinished"/>
+        <translation>Γίνεται λήψη της εξουσιοδότησης από το πρόγραμμα περιήγησης. Κάντε κλικ &lt;a href=&apos;%1&apos;&gt;εδώ&lt;/a&gt; για να ανοίξετε πάλι το πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1254"/>
@@ -955,7 +955,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1259"/>
         <source>No connection to %1 at %2.</source>
-        <translation type="unfinished"/>
+        <translation>Δεν υπάρχει σύνδεση με το %1 στο %2.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1310"/>
@@ -2205,7 +2205,10 @@ This can be an issue with your OpenSSL libraries.</source>
 These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
 If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
 If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
-        <translation type="unfinished"/>
+        <translation>Όλα τα αρχεία στο φάκελο συγχρονισμού &quot;%1&quot; έχουν διαγραφεί από τον διακομιστή.
+Αυτές οι διαγραφές θα συγχρονιστούν με τον τοπικό σας φάκελο, θέτοντας τα αρχεία μη διαθέσιμα, εκτός εάν έχετε δικαίωμα επαναφοράς. 
+Εάν αποφασίσετε να επαναφέρετε αυτά τα αρχεία, θα συγχρονιστούν εκ νέου, εφόσον έχετε το δικαίωμα.
+Εφόσον επιλέξετε να διαγράψετε τα αρχεία, δε θα είναι διαθέσιμα σε εσάς, εκτός εάν είστε ο κάτοχος.</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1415"/>
@@ -2217,12 +2220,14 @@ If you decide to delete the files, they will be unavailable to you, unless you a
         <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
 Are you sure you want to sync those actions with the server?
 If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
-        <translation type="unfinished"/>
+        <translation>Όλα τα αρχεία στον τοπικό σας φάκελο συγχρονισμού &quot;% 1&quot; διαγράφηκαν. Αυτές οι διαγραφές θα συγχρονιστούν με τον διακομιστή σας, καθιστώντας τα αρχεία μη διαθέσιμα εκτός αν γίνει επαναφορά τους.
+Είστε βέβαιοι ότι θέλετε να συγχρονίσετε αυτές τις ενέργειες με τον διακομιστή;
+Εάν έγινε λάθος και αποφασίσετε να διατηρήσετε τα αρχεία σας, θα συγχρονιστούν ξανά από το διακομιστή.</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1420"/>
         <source>Remove All Files?</source>
-        <translation type="unfinished"/>
+        <translation>Κατάργηση όλων των αρχείων;</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1423"/>
@@ -2232,12 +2237,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/folder.cpp" line="1424"/>
         <source>Remove all files</source>
-        <translation type="unfinished"/>
+        <translation>Κατάργηση όλων των αρχείων.</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1425"/>
         <source>Keep files</source>
-        <translation type="unfinished"/>
+        <translation>Κράτησε τα αρχεία</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1434"/>
@@ -2540,12 +2545,12 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="309"/>
         <source>Synchronizing VirtualFiles with local folder</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός των VirtualFiles με τον τοπικό φάκελο.</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="311"/>
         <source>Synchronizing with local folder</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός με τον τοπικό φάκελο.</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="322"/>
@@ -2570,7 +2575,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1004"/>
         <source>Reconciling changes</source>
-        <translation type="unfinished"/>
+        <translation>Συνδυασμός αλλαγών</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1009"/>
@@ -2592,7 +2597,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1191"/>
         <source>Waiting …</source>
-        <translation type="unfinished"/>
+        <translation>Αναμονή ΄...&apos;</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1065"/>
@@ -2604,7 +2609,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/folderstatusmodel.cpp" line="1066"/>
         <source>Syncing %1</source>
         <extracomment>Example text: &quot;Syncing 'foo.txt', 'bar.txt'&quot;</extracomment>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός %1</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1074"/>
@@ -2615,7 +2620,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/folderstatusmodel.cpp" line="1072"/>
         <source>download %1/s</source>
         <extracomment>Example text: &quot;download 24Kb/s&quot; (%1 is replaced by 24Kb (translated))</extracomment>
-        <translation type="unfinished"/>
+        <translation>λήψη %1/s</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1075"/>
@@ -2632,7 +2637,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/folderstatusmodel.cpp" line="1082"/>
         <source>upload %1/s</source>
         <extracomment>Example text: &quot;upload 24Kb/s&quot; (%1 is replaced by 24Kb (translated))</extracomment>
-        <translation type="unfinished"/>
+        <translation>μεταφόρτωση %1/s</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1090"/>
@@ -2671,7 +2676,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1136"/>
         <source>file %1 of %2</source>
-        <translation type="unfinished"/>
+        <translation>αρχείο %1 από %2</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1184"/>
@@ -2866,7 +2871,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/generalsettings.ui" line="20"/>
         <location filename="../src/gui/generalsettings.ui" line="32"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>Σχετικά</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="33"/>
@@ -2876,7 +2881,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="41"/>
         <source>Legal notice</source>
-        <translation type="unfinished"/>
+        <translation>Νομική ειδοποίηση</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="249"/>
@@ -2887,17 +2892,17 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="75"/>
         <source>Use &amp;Monochrome Icons</source>
-        <translation type="unfinished"/>
+        <translation>Χρήση &amp;Μονόχρωμων εικονιδίων</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="82"/>
         <source>&amp;Launch on System Startup</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Έναρξη κατά την Εκκίνηση Συστήματος</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="89"/>
         <source>Show Server &amp;Notifications</source>
-        <translation type="unfinished"/>
+        <translation>Εμφάνιση των ειδοποιήσεων διακομιστή</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="96"/>
@@ -2912,12 +2917,12 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="106"/>
         <source>Updates</source>
-        <translation type="unfinished"/>
+        <translation>Ενημερώσεις</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="114"/>
         <source>&amp;Automatically check for Updates</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Αυτόματος έλεγχος για Ενημερώσεις</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="123"/>
@@ -2927,7 +2932,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="134"/>
         <source>&amp;Channel</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Κανάλι</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="273"/>
@@ -2963,7 +2968,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="198"/>
         <source>&amp;Check for Update now</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Ελεγχος για Ενημερώσεις τώρα</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="218"/>
@@ -2973,7 +2978,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="229"/>
         <source>Ask for confirmation before synchronizing folders larger than</source>
-        <translation type="unfinished"/>
+        <translation>Ζητήστε επιβεβαίωση πριν τον συγχρονισμό φακέλων μεγαλύτερων από</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="230"/>
@@ -3023,7 +3028,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="284"/>
         <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
-        <translation type="unfinished"/>
+        <translation>Εμφάνιση φακέλων συγχρονισμού στο &amp;Παράθυρο Περιήγησης του Explorer</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="398"/>
@@ -3075,14 +3080,15 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="350"/>
         <source>Change update channel?</source>
-        <translation type="unfinished"/>
+        <translation>Αλλαγή καναλιού ενημέρωσης;</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="351"/>
         <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
 
 Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
-        <translation type="unfinished"/>
+        <translation>Το κανάλι ενημέρωσης καθορίζει ποιες ενημερώσεις πελατών θα προσφέρονται για εγκατάσταση. Το &quot;σταθερό&quot; κανάλι περιέχει μόνο αναβαθμίσεις που θεωρούνται αξιόπιστες, ενώ οι εκδόσεις στο κανάλι &quot;beta&quot; ενδέχεται να περιέχουν νεότερες δυνατότητες και επιδιορθώσεις σφαλμάτων, αλλά δεν έχουν ακόμη δοκιμαστεί διεξοδικά. 
+Λάβετε υπόψη ότι αυτό επιλέγει μόνο από τη δεξαμενήαπό την οποία προέρχονται οι αναβαθμίσεις της ομάδας και ότι δεν υπάρχουν υποβαθμίσεις: Επομένως, η επιστροφή από το κανάλι beta στο σταθερό κανάλι συνήθως δεν μπορεί να γίνει αμέσως και σημαίνει αναμονή για μια σταθερή έκδοση που είναι νεότερη από την τρέχουσα εγκατεστημένη έκδοση beta.</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="365"/>
@@ -3568,7 +3574,7 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/networksettings.ui" line="36"/>
         <source>No Proxy</source>
-        <translation type="unfinished"/>
+        <translation>Χωρίς διαμεσολαβητή</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.ui" line="49"/>
@@ -3578,7 +3584,7 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/networksettings.ui" line="59"/>
         <source>Specify proxy manually as</source>
-        <translation type="unfinished"/>
+        <translation>Προσδιορίστε διαμεσολαβητή χειροκίνητα ως</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.ui" line="80"/>
@@ -3698,7 +3704,7 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="152"/>
         <source>Downloading %1. Please wait …</source>
-        <translation type="unfinished"/>
+        <translation>Λήψη %1. Παρακαλώ περιμένετε...</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="154"/>
@@ -4142,12 +4148,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/discovery.cpp" line="353"/>
         <source>File name contains at least one invalid character</source>
-        <translation type="unfinished"/>
+        <translation>Το όνομα αρχείου περιέχει τουλάχιστον έναν μη έγκυρο χαρακτήρα.</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="355"/>
         <source>The file name is a reserved name on this file system.</source>
-        <translation type="unfinished"/>
+        <translation>Το όνομα αρχείου είναι ένα δεσμευμένο όνομα σε αυτό το σύστημα αρχείων.</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="394"/>
@@ -4839,7 +4845,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/tray/notificationhandler.cpp" line="154"/>
         <source>Dismiss</source>
-        <translation type="unfinished"/>
+        <translation>Αποδέσμευση</translation>
     </message>
 </context>
 <context>
@@ -5078,7 +5084,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1369"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Επεξεργασία</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1371"/>
@@ -5528,7 +5534,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/systray.cpp" line="554"/>
         <source>%1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1: %2</translation>
     </message>
 </context>
 <context>
@@ -5537,7 +5543,7 @@ Server replied with error: %2</source>
         <location filename="../src/libsync/theme.cpp" line="554"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;Εφαρμογή Υπολογιστή %1 &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="578"/>
@@ -5957,12 +5963,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="308"/>
         <source>Disconnected</source>
-        <translation type="unfinished"/>
+        <translation>Αποσυνδεδεμένο</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="310"/>
         <source>Disconnected from some accounts</source>
-        <translation type="unfinished"/>
+        <translation>Έγινε αποσύνδεση από μερικούς λογαριασμούς</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="318"/>
@@ -5987,7 +5993,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="338"/>
         <source>Signed out</source>
-        <translation type="unfinished"/>
+        <translation>Αποσύνδεση</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="342"/>
@@ -5998,32 +6004,32 @@ Server replied with error: %2</source>
         <location filename="../src/gui/owncloudgui.cpp" line="343"/>
         <location filename="../src/gui/owncloudgui.cpp" line="396"/>
         <source>Synchronization is paused</source>
-        <translation type="unfinished"/>
+        <translation>Παύθηκε ο συγχρονισμός</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="383"/>
         <source>Folder %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Φάκελος %1: %2</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="391"/>
         <source>Unresolved conflicts</source>
-        <translation type="unfinished"/>
+        <translation>Άλυτες διενέξεις</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="393"/>
         <source>Up to date</source>
-        <translation type="unfinished"/>
+        <translation>Ενημερωμένο</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="398"/>
         <source>Error during synchronization</source>
-        <translation type="unfinished"/>
+        <translation>Σφάλμα κατά τον συγχρονισμό</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="402"/>
         <source>No sync folders configured</source>
-        <translation type="unfinished"/>
+        <translation>Δεν ρυθμίστηκαν φάκελοι συγχρονισμού</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="452"/>
@@ -6064,22 +6070,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="486"/>
         <source>Syncing %1 of %2 (%3 left)</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός %1 από %2 (%3 απομένουν)</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="491"/>
         <source>Syncing %1 of %2</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός %1 από %2</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="500"/>
         <source>Syncing %1 (%2 left)</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός %1 (%2 απομένουν)</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="503"/>
         <source>Syncing %1</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός %1</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="513"/>
@@ -6909,7 +6915,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="77"/>
         <source>uploading</source>
-        <translation type="unfinished"/>
+        <translation>μεταφόρτωση</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="79"/>
@@ -6919,7 +6925,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="79"/>
         <source>deleting</source>
-        <translation type="unfinished"/>
+        <translation>διαγραφή</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="81"/>
@@ -6929,7 +6935,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="82"/>
         <source>moving</source>
-        <translation type="unfinished"/>
+        <translation>μετακίνηση</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="84"/>
@@ -6939,7 +6945,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="84"/>
         <source>ignoring</source>
-        <translation type="unfinished"/>
+        <translation>αγνοείται</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="86"/>
@@ -6949,12 +6955,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="87"/>
         <source>error</source>
-        <translation type="unfinished"/>
+        <translation>σφάλμα </translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="89"/>
         <source>updating local metadata</source>
-        <translation type="unfinished"/>
+        <translation>γίνεται ενημέρωση μεταδεδομένων</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="91"/>
@@ -6972,12 +6978,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="84"/>
         <source>Status undefined</source>
-        <translation type="unfinished"/>
+        <translation>Απροσδιόριστη κατάσταση</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="87"/>
         <source>Waiting to start sync</source>
-        <translation type="unfinished"/>
+        <translation>Αναμονή έναρξης συγχρονισμού</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="89"/>
@@ -6997,12 +7003,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="93"/>
         <source>Sync Success</source>
-        <translation type="unfinished"/>
+        <translation>Επιτυχημένος Συγχρονισμός</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="96"/>
         <source>Sync Success, some files were ignored.</source>
-        <translation type="unfinished"/>
+        <translation>Επιτυχία Συγχρονισμού, κάποια αρχεία αγνοήθηκαν.</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="98"/>
@@ -7012,7 +7018,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="99"/>
         <source>Sync Error</source>
-        <translation type="unfinished"/>
+        <translation>Σφάλμα Συγχρονισμού</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="101"/>
@@ -7022,7 +7028,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="102"/>
         <source>Setup Error</source>
-        <translation type="unfinished"/>
+        <translation>Σφάλμα Ρυθμίσεων</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="104"/>
@@ -7042,7 +7048,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="108"/>
         <source>Aborting …</source>
-        <translation type="unfinished"/>
+        <translation>Ακύρωση &apos;...&apos;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="113"/>
@@ -7113,12 +7119,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/abstractpropagateremotedeleteencrypted.cpp" line="139"/>
         <source>Wrong HTTP code returned by server. Expected 204, but received &quot;%1 %2&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Ο διακομιστής επέστρεψε εσφαλμένο κωδικό HTTP. Αναμενόταν 204, αλλά ελήφθη &quot;%1 %2&quot;.</translation>
     </message>
     <message>
         <location filename="../src/libsync/abstractpropagateremotedeleteencrypted.cpp" line="183"/>
         <source>&quot;%1 Failed to unlock encrypted folder %2&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1 Το ξεκλείδωμα του κρυπτογραφημένου φακέλου απέτυχε %2&quot;.</translation>
     </message>
 </context>
 <context>
@@ -7126,7 +7132,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="115"/>
         <source>Error returned from the server: &lt;em&gt;%1&lt;/em&gt;</source>
-        <translation type="unfinished"/>
+        <translation>Ο διακομιστής επέστρεψε το σφάλμα: &lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="118"/>
@@ -7136,22 +7142,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="122"/>
         <source>Empty JSON from OAuth2 redirect</source>
-        <translation type="unfinished"/>
+        <translation>Αδειάστε JSON από OAuth2 ανακατεύθυνση.</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="127"/>
         <source>Could not parse the JSON returned from the server: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
-        <translation type="unfinished"/>
+        <translation>Δεν ήταν δυνατή η ανάλυση του JSON από το διακομιστή: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="130"/>
         <source>The reply from the server did not contain all expected fields</source>
-        <translation type="unfinished"/>
+        <translation>Η απάντηση του διακομιστή δεν περιέχει όλα τα αναμενόμενα στοιχεία</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="134"/>
         <source>&lt;h1&gt;Login Error&lt;/h1&gt;&lt;p&gt;%1&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;h1&gt;Σφάλμα εισόδου&lt;/h1&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="140"/>
@@ -7164,12 +7170,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.cpp" line="45"/>
         <source>Connect to %1</source>
-        <translation type="unfinished"/>
+        <translation>Σύνδεση με %1</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.cpp" line="46"/>
         <source>Login in your browser</source>
-        <translation type="unfinished"/>
+        <translation>Σύνδεση στον προεπιλεγμένο περιηγητή ιστοσελίδων</translation>
     </message>
 </context>
 <context>
@@ -7177,7 +7183,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="80"/>
         <source>Username</source>
-        <translation type="unfinished"/>
+        <translation>Όνομα χρήστη</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="115"/>
@@ -7187,17 +7193,17 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="149"/>
         <source>Note:</source>
-        <translation type="unfinished"/>
+        <translation>Σημείωση:</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="205"/>
         <source>Password:</source>
-        <translation type="unfinished"/>
+        <translation>Συνθηματικό:</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="277"/>
         <source>Expires:</source>
-        <translation type="unfinished"/>
+        <translation>Λήγει:</translation>
     </message>
 </context>
 <context>
@@ -7205,22 +7211,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="36"/>
         <source>Please switch to your browser to proceed.</source>
-        <translation type="unfinished"/>
+        <translation>Μεταβείτε στον φυλλομετρητή για συνέχεια.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="46"/>
         <source>An error occurred while connecting. Please try again.</source>
-        <translation type="unfinished"/>
+        <translation>Σφάλμα κατά την σύνδεση. Δοκιμάστε ξανά.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="56"/>
         <source>Re-open Browser</source>
-        <translation type="unfinished"/>
+        <translation>Επανεκκίνηση Περιηγητή</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="69"/>
         <source>Copy link</source>
-        <translation type="unfinished"/>
+        <translation>Αντιγραφή συνδέσμου</translation>
     </message>
 </context>
 <context>
@@ -7228,49 +7234,49 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="256"/>
         <source>Nextcloud desktop main dialog</source>
-        <translation type="unfinished"/>
+        <translation>Κύριος διάλογος της επιφάνειας εργασίας Nextcloud.</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="282"/>
         <source>Current account</source>
-        <translation type="unfinished"/>
+        <translation>Τρέχον λογαριασμός</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="288"/>
         <location filename="../src/gui/tray/Window.qml" line="420"/>
         <source>Resume sync for all</source>
-        <translation type="unfinished"/>
+        <translation>Συνέχιση όλων των συγχρονισμών</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="288"/>
         <location filename="../src/gui/tray/Window.qml" line="420"/>
         <source>Pause sync for all</source>
-        <translation type="unfinished"/>
+        <translation>Παύση όλων των συγχρονισμών</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="380"/>
         <source>Add account</source>
-        <translation type="unfinished"/>
+        <translation>Προσθήκη λογαριασμού</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="392"/>
         <source>Add new account</source>
-        <translation type="unfinished"/>
+        <translation>Προσθήκη νέου λογαριασμού</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="426"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>Ρυθμίσεις</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="448"/>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation>Έξοδος</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="492"/>
         <source>Current account avatar</source>
-        <translation type="unfinished"/>
+        <translation>Άβαταρ τρέχοντος λογαριασμού</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="531"/>
@@ -7285,22 +7291,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="607"/>
         <source>Account switcher and settings menu</source>
-        <translation type="unfinished"/>
+        <translation>Μενού εναλλαγής λογαριασμού και ρυθμίσεων.</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="641"/>
         <source>Open Nextcloud Talk in browser</source>
-        <translation type="unfinished"/>
+        <translation>Άνοιγμα του Nextcloud Talk με το πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="661"/>
         <source>More apps</source>
-        <translation type="unfinished"/>
+        <translation>Περισσότερες εφαρμογές</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="715"/>
         <source>Open %1 in browser</source>
-        <translation type="unfinished"/>
+        <translation>Άνοιγμα %1 στον περιηγητή</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="821"/>
@@ -7313,7 +7319,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="533"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;&lt;small&gt;Δημιουργήθηκε από την διασκευή Git &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; στο %3, %4 χρησιμοποιώντας Qt %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>

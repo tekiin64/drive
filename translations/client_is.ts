@@ -334,7 +334,7 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="384"/>
         <source>Could not make directories in trash</source>
-        <translation type="unfinished"/>
+        <translation>Gat ekki útbúið möppur í ruslinu</translation>
     </message>
     <message>
         <location filename="../src/common/filesystembase.cpp" line="398"/>
@@ -345,7 +345,7 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="438"/>
         <source>Moving to the trash is not implemented on this platform</source>
-        <translation type="unfinished"/>
+        <translation>Að færa í ruslið er ekki útfært í þessu stýrikerfi</translation>
     </message>
 </context>
 <context>
@@ -539,7 +539,8 @@
         <location filename="../src/gui/accountmanager.cpp" line="184"/>
         <source>An existing configuration from a legacy desktop client was detected.
 Should an account import be attempted?</source>
-        <translation type="unfinished"/>
+        <translation>Fann fyrirliggjandi uppsetningu úr eldri gerð vinnutölvuforrits.
+Ætti að reyna að flytja aðganginn inn?</translation>
     </message>
     <message>
         <location filename="../src/gui/accountmanager.cpp" line="214"/>
@@ -959,7 +960,7 @@ skráakerfið eða sameignarmöppur, gætu verið með önnur takmörk.</transla
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1259"/>
         <source>No connection to %1 at %2.</source>
-        <translation type="unfinished"/>
+        <translation>Engin tenging við %1 á %2.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1310"/>
@@ -2228,7 +2229,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/folder.cpp" line="1420"/>
         <source>Remove All Files?</source>
-        <translation type="unfinished"/>
+        <translation>Fjarlægja allar skrár?</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1423"/>
@@ -2238,12 +2239,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/folder.cpp" line="1424"/>
         <source>Remove all files</source>
-        <translation type="unfinished"/>
+        <translation>Fjarlægja allar skrár</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1425"/>
         <source>Keep files</source>
-        <translation type="unfinished"/>
+        <translation>Halda skrám</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1434"/>
@@ -2544,12 +2545,12 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="309"/>
         <source>Synchronizing VirtualFiles with local folder</source>
-        <translation type="unfinished"/>
+        <translation>Samstilli sýndarskrár við möppu á tölvunni</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="311"/>
         <source>Synchronizing with local folder</source>
-        <translation type="unfinished"/>
+        <translation>Samstilli við möppu á tölvunni</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="322"/>
@@ -2574,7 +2575,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1004"/>
         <source>Reconciling changes</source>
-        <translation type="unfinished"/>
+        <translation>Samþætti breytingar</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1009"/>
@@ -2596,7 +2597,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1191"/>
         <source>Waiting …</source>
-        <translation type="unfinished"/>
+        <translation>Bíð …</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1065"/>
@@ -2619,7 +2620,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/folderstatusmodel.cpp" line="1072"/>
         <source>download %1/s</source>
         <extracomment>Example text: &quot;download 24Kb/s&quot; (%1 is replaced by 24Kb (translated))</extracomment>
-        <translation type="unfinished"/>
+        <translation>sæki %1/sek</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1075"/>
@@ -2636,7 +2637,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/folderstatusmodel.cpp" line="1082"/>
         <source>upload %1/s</source>
         <extracomment>Example text: &quot;upload 24Kb/s&quot; (%1 is replaced by 24Kb (translated))</extracomment>
-        <translation type="unfinished"/>
+        <translation>sendi inn %1/sek</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1090"/>
@@ -2675,7 +2676,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1136"/>
         <source>file %1 of %2</source>
-        <translation type="unfinished"/>
+        <translation>skrá %1 af %2</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="1184"/>
@@ -2870,7 +2871,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
         <location filename="../src/gui/generalsettings.ui" line="20"/>
         <location filename="../src/gui/generalsettings.ui" line="32"/>
         <source>About</source>
-        <translation type="unfinished"/>
+        <translation>Um hugbúnaðinn</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="33"/>
@@ -2891,17 +2892,17 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="75"/>
         <source>Use &amp;Monochrome Icons</source>
-        <translation type="unfinished"/>
+        <translation>Nota einlitar tákn&amp;myndir</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="82"/>
         <source>&amp;Launch on System Startup</source>
-        <translation type="unfinished"/>
+        <translation>Ræsa þegar &amp;kveikt á vél</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="89"/>
         <source>Show Server &amp;Notifications</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Birta tilkynningar frá þjóni</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="96"/>
@@ -2916,12 +2917,12 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="106"/>
         <source>Updates</source>
-        <translation type="unfinished"/>
+        <translation>Uppfærslur</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="114"/>
         <source>&amp;Automatically check for Updates</source>
-        <translation type="unfinished"/>
+        <translation>Leit&amp;a sjálfvirkt að uppfærslum</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="123"/>
@@ -2967,7 +2968,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="198"/>
         <source>&amp;Check for Update now</source>
-        <translation type="unfinished"/>
+        <translation>At&amp;huga núna með uppfærslu</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="218"/>
@@ -2977,7 +2978,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.ui" line="229"/>
         <source>Ask for confirmation before synchronizing folders larger than</source>
-        <translation type="unfinished"/>
+        <translation>Biðja um staðfestingu áður en samstilltar eru möppur stærri en</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="230"/>
@@ -3079,7 +3080,7 @@ Alternatively, you can restore all deleted files by downloading them from the se
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="350"/>
         <source>Change update channel?</source>
-        <translation type="unfinished"/>
+        <translation>Skipta um uppfærslurás?</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="351"/>
@@ -3568,7 +3569,7 @@ niðurhals. Uppsetta útgáfan er %3.&lt;/p&gt;</translation>
     <message>
         <location filename="../src/gui/networksettings.ui" line="36"/>
         <source>No Proxy</source>
-        <translation type="unfinished"/>
+        <translation>Enginn milliþjónn</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.ui" line="49"/>
@@ -3578,7 +3579,7 @@ niðurhals. Uppsetta útgáfan er %3.&lt;/p&gt;</translation>
     <message>
         <location filename="../src/gui/networksettings.ui" line="59"/>
         <source>Specify proxy manually as</source>
-        <translation type="unfinished"/>
+        <translation>Skilgreina milliþjón handvirkt sem</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.ui" line="80"/>
@@ -3698,7 +3699,7 @@ niðurhals. Uppsetta útgáfan er %3.&lt;/p&gt;</translation>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="152"/>
         <source>Downloading %1. Please wait …</source>
-        <translation type="unfinished"/>
+        <translation>Sæki %1. Bíddu aðeins …</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="154"/>
@@ -4143,12 +4144,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/discovery.cpp" line="353"/>
         <source>File name contains at least one invalid character</source>
-        <translation type="unfinished"/>
+        <translation>Skráarheitið inniheldur að minnsta kosti einn ógildan staf</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="355"/>
         <source>The file name is a reserved name on this file system.</source>
-        <translation type="unfinished"/>
+        <translation>Skráarheitið er frátekið fyrir annað í þessu skráakerfi.</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="394"/>
@@ -4840,7 +4841,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/tray/notificationhandler.cpp" line="154"/>
         <source>Dismiss</source>
-        <translation type="unfinished"/>
+        <translation>Hafna</translation>
     </message>
 </context>
 <context>
@@ -5079,7 +5080,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1369"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Breyta</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1371"/>
@@ -5529,7 +5530,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/systray.cpp" line="554"/>
         <source>%1: %2</source>
-        <translation type="unfinished"/>
+        <translation>%1: %2</translation>
     </message>
 </context>
 <context>
@@ -5538,7 +5539,7 @@ Server replied with error: %2</source>
         <location filename="../src/libsync/theme.cpp" line="554"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;%1 vinnutölvuforrit&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="578"/>
@@ -5888,7 +5889,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/creds/webflowcredentials.cpp" line="190"/>
         <source>Please login with the account: %1</source>
-        <translation type="unfinished"/>
+        <translation>Skráðu þig inn með aðgangnum: %1</translation>
     </message>
 </context>
 <context>
@@ -5959,7 +5960,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="308"/>
         <source>Disconnected</source>
-        <translation type="unfinished"/>
+        <translation>Aftengt</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="310"/>
@@ -5989,7 +5990,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="338"/>
         <source>Signed out</source>
-        <translation type="unfinished"/>
+        <translation>Skráð/ur út</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="342"/>
@@ -6000,32 +6001,32 @@ Server replied with error: %2</source>
         <location filename="../src/gui/owncloudgui.cpp" line="343"/>
         <location filename="../src/gui/owncloudgui.cpp" line="396"/>
         <source>Synchronization is paused</source>
-        <translation type="unfinished"/>
+        <translation>Samstilling er í bið</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="383"/>
         <source>Folder %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Mappa %1: %2</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="391"/>
         <source>Unresolved conflicts</source>
-        <translation type="unfinished"/>
+        <translation>Óleystir árekstrar</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="393"/>
         <source>Up to date</source>
-        <translation type="unfinished"/>
+        <translation>Allt uppfært nú þegar</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="398"/>
         <source>Error during synchronization</source>
-        <translation type="unfinished"/>
+        <translation>Villa við samstillingu</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="402"/>
         <source>No sync folders configured</source>
-        <translation type="unfinished"/>
+        <translation>Engar samstillingarmöppur stilltar</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="452"/>
@@ -6066,22 +6067,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="486"/>
         <source>Syncing %1 of %2 (%3 left)</source>
-        <translation type="unfinished"/>
+        <translation>Samstilli %1 af %2 (%3 eftir)</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="491"/>
         <source>Syncing %1 of %2</source>
-        <translation type="unfinished"/>
+        <translation>Samstilli %1 af %2</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="500"/>
         <source>Syncing %1 (%2 left)</source>
-        <translation type="unfinished"/>
+        <translation>Samstilli %1 (%2 eftir)</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="503"/>
         <source>Syncing %1</source>
-        <translation type="unfinished"/>
+        <translation>Samstilli %1</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="513"/>
@@ -6911,7 +6912,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="77"/>
         <source>uploading</source>
-        <translation type="unfinished"/>
+        <translation>sendi inn</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="79"/>
@@ -6931,7 +6932,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="82"/>
         <source>moving</source>
-        <translation type="unfinished"/>
+        <translation>færi</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="84"/>
@@ -6941,7 +6942,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="84"/>
         <source>ignoring</source>
-        <translation type="unfinished"/>
+        <translation>hunsa</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="86"/>
@@ -6951,12 +6952,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="87"/>
         <source>error</source>
-        <translation type="unfinished"/>
+        <translation>villa</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="89"/>
         <source>updating local metadata</source>
-        <translation type="unfinished"/>
+        <translation>uppfæri staðvær lýsigögn</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="91"/>
@@ -6974,12 +6975,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="84"/>
         <source>Status undefined</source>
-        <translation type="unfinished"/>
+        <translation>Óskilgreind staða</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="87"/>
         <source>Waiting to start sync</source>
-        <translation type="unfinished"/>
+        <translation>Bíð eftir að samstilling ræsist</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="89"/>
@@ -6999,7 +7000,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="93"/>
         <source>Sync Success</source>
-        <translation type="unfinished"/>
+        <translation>Samstilling tókst</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="96"/>
@@ -7024,7 +7025,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="102"/>
         <source>Setup Error</source>
-        <translation type="unfinished"/>
+        <translation>Villa í uppsetningu</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="104"/>
@@ -7044,7 +7045,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/theme.cpp" line="108"/>
         <source>Aborting …</source>
-        <translation type="unfinished"/>
+        <translation>Hætti við …</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="113"/>
@@ -7118,7 +7119,7 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/libsync/abstractpropagateremotedeleteencrypted.cpp" line="139"/>
         <source>Wrong HTTP code returned by server. Expected 204, but received &quot;%1 %2&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Fékk rangan HTTP-kóða frá þjóni. Átti von á 204, en fékk &quot;%1 %2&quot;.</translation>
     </message>
     <message>
         <location filename="../src/libsync/abstractpropagateremotedeleteencrypted.cpp" line="183"/>
@@ -7131,7 +7132,7 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="115"/>
         <source>Error returned from the server: &lt;em&gt;%1&lt;/em&gt;</source>
-        <translation type="unfinished"/>
+        <translation>Villumelding kom frá þjóninum: &lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="118"/>
@@ -7156,7 +7157,7 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="134"/>
         <source>&lt;h1&gt;Login Error&lt;/h1&gt;&lt;p&gt;%1&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;h1&gt;Villa í innskráningu&lt;/h1&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="140"/>
@@ -7169,12 +7170,12 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.cpp" line="45"/>
         <source>Connect to %1</source>
-        <translation type="unfinished"/>
+        <translation>Tengjast við %1</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.cpp" line="46"/>
         <source>Login in your browser</source>
-        <translation type="unfinished"/>
+        <translation>Skráðu þig inn í vafranum þínum</translation>
     </message>
 </context>
 <context>
@@ -7182,27 +7183,27 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="80"/>
         <source>Username</source>
-        <translation type="unfinished"/>
+        <translation>Notandanafn</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="115"/>
         <source>Can edit</source>
-        <translation type="unfinished"/>
+        <translation>Getur breytt</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="149"/>
         <source>Note:</source>
-        <translation type="unfinished"/>
+        <translation>Athugasemd:</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="205"/>
         <source>Password:</source>
-        <translation type="unfinished"/>
+        <translation>Lykilorð:</translation>
     </message>
     <message>
         <location filename="../src/gui/shareuserline.ui" line="277"/>
         <source>Expires:</source>
-        <translation type="unfinished"/>
+        <translation>Rennur út:</translation>
     </message>
 </context>
 <context>
@@ -7210,22 +7211,22 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="36"/>
         <source>Please switch to your browser to proceed.</source>
-        <translation type="unfinished"/>
+        <translation>Skiptu yfir í vafrann þinn til að halda áfram.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="46"/>
         <source>An error occurred while connecting. Please try again.</source>
-        <translation type="unfinished"/>
+        <translation>Villa kom upp við tengingu. Endilega reyndu aftur.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="56"/>
         <source>Re-open Browser</source>
-        <translation type="unfinished"/>
+        <translation>Opna vafra aftur</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudoauthcredspage.ui" line="69"/>
         <source>Copy link</source>
-        <translation type="unfinished"/>
+        <translation>Afrita tengil</translation>
     </message>
 </context>
 <context>
@@ -7233,29 +7234,29 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="256"/>
         <source>Nextcloud desktop main dialog</source>
-        <translation type="unfinished"/>
+        <translation>Aðalgluggi Nextcloud-skjáborðs</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="282"/>
         <source>Current account</source>
-        <translation type="unfinished"/>
+        <translation>Núverandi notandaaðgangur</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="288"/>
         <location filename="../src/gui/tray/Window.qml" line="420"/>
         <source>Resume sync for all</source>
-        <translation type="unfinished"/>
+        <translation>Halda samstillingu áfram fyrir allt</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="288"/>
         <location filename="../src/gui/tray/Window.qml" line="420"/>
         <source>Pause sync for all</source>
-        <translation type="unfinished"/>
+        <translation>Gera hlé á samstillingu fyrir allt</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="380"/>
         <source>Add account</source>
-        <translation type="unfinished"/>
+        <translation>Bæta við notandaaðgangi</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="392"/>
@@ -7265,17 +7266,17 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="426"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>Stillingar</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="448"/>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation>Fara út</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="492"/>
         <source>Current account avatar</source>
-        <translation type="unfinished"/>
+        <translation>Núverandi auðkennismynd notandaaðgangs</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="531"/>
@@ -7300,12 +7301,12 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="661"/>
         <source>More apps</source>
-        <translation type="unfinished"/>
+        <translation>Fleiri forrit</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="715"/>
         <source>Open %1 in browser</source>
-        <translation type="unfinished"/>
+        <translation>Opna %1 í vafra</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="821"/>
@@ -7318,7 +7319,8 @@ sjálfgefið?</translation>
     <message>
         <location filename="../src/libsync/theme.cpp" line="533"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;&lt;small&gt;Byggt með Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; á %3, %4 með Qt %5, 
+%6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>
