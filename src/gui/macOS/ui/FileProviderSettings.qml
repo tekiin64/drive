@@ -153,12 +153,7 @@ Page {
                     text: qsTr("Signal file provider domain")
                     onClicked: root.controller.signalFileProviderDomain(root.accountUserIdAtHost)
                 }
-
-                CustomButton {
-                    text: qsTr("Create debug archive")
-                    onClicked: root.controller.createDebugArchive(root.accountUserIdAtHost)
-                }
-            }
+           }
         }
     }
 }
