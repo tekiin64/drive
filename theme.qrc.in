@@ -157,16 +157,16 @@
         <file>theme/white/wizard-groupware.svg</file>
         <file>theme/white/wizard-groupware.png</file>
         <file>theme/white/wizard-groupware@2x.png</file>
-        <file>theme/white/wizard-nextcloud.png</file>
-        <file>theme/white/wizard-nextcloud@2x.png</file>
+        <file>theme/white/wizard-devupsdrive.png</file>
+        <file>theme/white/wizard-devupsdrive@2x.png</file>
         <file>theme/white/wizard-talk.png</file>
         <file>theme/white/wizard-talk@2x.png</file>
         <file>theme/black/wizard-files.png</file>
         <file>theme/black/wizard-files@2x.png</file>
         <file>theme/black/wizard-groupware.png</file>
         <file>theme/black/wizard-groupware@2x.png</file>
-        <file>theme/black/wizard-nextcloud.png</file>
-        <file>theme/black/wizard-nextcloud@2x.png</file>
+        <file>theme/black/wizard-devupsdrive.png</file>
+        <file>theme/black/wizard-devupsdrive@2x.png</file>
         <file>theme/black/wizard-talk.png</file>
         <file>theme/black/wizard-talk@2x.png</file>
         <file>theme/black/wizard-files.png</file>
@@ -175,8 +175,8 @@
         <file>theme/colored/wizard-files@2x.png</file>
         <file>theme/colored/wizard-groupware.png</file>
         <file>theme/colored/wizard-groupware@2x.png</file>
-        <file>theme/colored/wizard-nextcloud.png</file>
-        <file>theme/colored/wizard-nextcloud@2x.png</file>
+        <file>theme/colored/wizard-devupsdrive.png</file>
+        <file>theme/colored/wizard-devupsdrive@2x.png</file>
         <file>theme/colored/wizard-talk.png</file>
         <file>theme/colored/wizard-talk@2x.png</file>
         <file>theme/sync-arrow.svg</file>
