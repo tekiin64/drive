@@ -81,8 +81,6 @@ if(WIN32)
     set( WIN_MSI_UPGRADE_CODE                "FD2FCCA9-BB8F-4485-8F70-A0621B84A7F4" )
 
     # Windows build options
-    option( BUILD_WIN_MSI "Build MSI scripts and helper DLL" OFF )
-    option( BUILD_WIN_TOOLS "Build Win32 migration tools" OFF )
     option( BUILD_WIN_MSI "Build MSI scripts and helper DLL" ON )
     option( BUILD_WIN_TOOLS "Build Win32 migration tools" ON )
 endif()
